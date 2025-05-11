@@ -117,8 +117,25 @@ export default {
 			fontFamily: {
 				sans: ['Inter var', 'sans-serif'],
 				serif: ['Georgia', 'serif']
-			}
+			},
+			typography: {
+				DEFAULT: {
+					css: {
+						maxWidth: 'none',
+						a: {
+							fontWeight: '500',
+							textDecoration: 'none',
+							'&:hover': {
+								textDecoration: 'underline',
+							},
+						},
+					},
+				},
+			},
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [
+		require("tailwindcss-animate"),
+		require("@tailwindcss/typography"),
+	],
 } satisfies Config;
