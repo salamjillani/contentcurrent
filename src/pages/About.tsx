@@ -1,4 +1,3 @@
-
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -14,10 +13,10 @@ const About = () => {
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="mb-6 text-4xl font-bold tracking-tight md:text-5xl">
-              About CraftyApe
+              About Danvertise S.L.U
             </h1>
             <p className="mb-8 text-xl text-gray-600">
-              We're passionate about exploring the digital jungle and sharing valuable insights with our readers.
+              A service provided by Danvertise S.L.U, committed to delivering exceptional digital solutions.
             </p>
           </div>
         </div>
@@ -30,19 +29,19 @@ const About = () => {
             <div>
               <h2 className="text-3xl font-bold mb-6">Our Story</h2>
               <p className="text-gray-600 mb-4">
-                CraftyApe was founded in 2023 with a simple mission: to make complex digital topics accessible to everyone. Our team of writers, designers, and developers work together to create content that informs, inspires, and empowers our audience.
+                Founded in 2022, Danvertise S.L.U began as a small team of passionate developers with a vision to transform how businesses leverage technology. What started in a tiny office with just three team members has grown into a thriving company serving clients across the globe.
               </p>
               <p className="text-gray-600 mb-4">
-                What started as a small blog has grown into a platform that reaches thousands of readers every month. We cover a wide range of topics, from technology and design to business and lifestyle, all with the goal of helping our readers navigate the ever-changing digital landscape.
+                Through dedication to quality and customer satisfaction, we've built a reputation for excellence in our industry. Our diverse team brings together experts from various backgrounds including software development, design, marketing, and business strategy.
               </p>
               <p className="text-gray-600">
-                Our commitment to quality content and authentic storytelling has made CraftyApe a trusted resource for professionals, entrepreneurs, and enthusiasts alike.
+                We collaborate closely to deliver innovative solutions tailored to each client's unique needs, with team members spanning three continents and bringing a global perspective to every project.
               </p>
             </div>
             <div className="rounded-lg overflow-hidden">
               <img 
                 src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-                alt="The CraftyApe team" 
+                alt="Danvertise S.L.U Team" 
                 className="w-full h-auto"
               />
             </div>
@@ -56,7 +55,7 @@ const About = () => {
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl font-bold mb-6">Our Mission</h2>
             <p className="text-xl mb-8">
-              To create insightful, accessible content that helps people understand and leverage digital technologies for personal and professional growth.
+              To provide exceptional digital solutions that empower businesses to thrive in the modern marketplace, driven by innovation, integrity, and creating lasting value for our clients.
             </p>
             <div className="grid gap-8 md:grid-cols-3">
               <div className="bg-white p-6 rounded-lg shadow-md">
@@ -65,9 +64,9 @@ const About = () => {
                     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Passionate</h3>
+                <h3 className="text-xl font-semibold mb-2">Innovative</h3>
                 <p className="text-gray-600">
-                  We're deeply committed to our craft and passionate about the subjects we cover.
+                  We continuously push the boundaries of technology to create cutting-edge solutions.
                 </p>
               </div>
               <div className="bg-white p-6 rounded-lg shadow-md">
@@ -77,9 +76,9 @@ const About = () => {
                     <polyline points="22 4 12 14.01 9 11.01"></polyline>
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Accurate</h3>
+                <h3 className="text-xl font-semibold mb-2">Integrity</h3>
                 <p className="text-gray-600">
-                  We value accuracy and thoroughness in all the information we share.
+                  We are committed to transparency, honesty, and ethical business practices.
                 </p>
               </div>
               <div className="bg-white p-6 rounded-lg shadow-md">
@@ -89,10 +88,30 @@ const About = () => {
                     <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Insightful</h3>
+                <h3 className="text-xl font-semibold mb-2">Global Reach</h3>
                 <p className="text-gray-600">
-                  We dig deeper to provide valuable insights that go beyond surface-level information.
+                  We leverage our international team to provide diverse, comprehensive solutions.
                 </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Company Information */}
+      <section className="py-16 md:py-24 bg-gray-50">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold mb-6 text-center">Company Details</h2>
+            <div className="bg-white p-8 rounded-lg shadow-md">
+              <div className="mb-4">
+                <span className="font-semibold">Company Name:</span> Danvertise S.L.U
+              </div>
+              <div className="mb-4">
+                <span className="font-semibold">Address:</span> C/Cristofor Colom 99, Vilassar de Mar 08340, Barcelona, Spain
+              </div>
+              <div>
+                <span className="font-semibold">Country:</span> Spain
               </div>
             </div>
           </div>
@@ -105,7 +124,7 @@ const About = () => {
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl font-bold mb-4">Get in Touch</h2>
             <p className="text-xl text-gray-600 mb-8">
-              Have questions or feedback? We'd love to hear from you!
+              Have questions or want to discuss your next project? We'd love to hear from you!
             </p>
             <Button asChild className="bg-monkey hover:bg-monkey-dark">
               <Link to="/contact">Contact Us</Link>
