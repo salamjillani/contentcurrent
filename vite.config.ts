@@ -5,18 +5,18 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  server: {
-    host: "::",
-    port: 8080,
-  },
   plugins: [
     react(),
-    mode === 'development' &&
-    componentTagger(),
+    // Only enable componentTagger in development mode
+    mode === 'development' && componentTagger(),
   ].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },
+  build: {
+    // Cloudflare Pages expects output to be in the 'dist' folder
+    outDir: 'dist', 
   },
 }));
