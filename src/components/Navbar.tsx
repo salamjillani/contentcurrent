@@ -1,16 +1,23 @@
-
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleCategoryClick = (category: string) => {
+    // Navigate to blog page with category filter
+    navigate(`/blog?category=${category.toLowerCase()}`);
+    // Close mobile menu if open
+    setIsOpen(false);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-sm border-b border-gray-100">
       <div className="container mx-auto flex items-center justify-between h-16 px-4 md:px-6">
         <Link to="/" className="flex items-center gap-2">
-          <span className="text-2xl font-bold text-monkey">CraftyApe</span>
+          <span className="text-2xl font-bold text-monkey">The Content Current</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -18,20 +25,33 @@ const Navbar = () => {
           <Link to="/" className="text-monkey-text hover:text-monkey transition-colors">
             Home
           </Link>
-          <Link to="/blog" className="text-monkey-text hover:text-monkey transition-colors">
-            Blog
-          </Link>
-          <Link to="/about" className="text-monkey-text hover:text-monkey transition-colors">
-            About
-          </Link>
-          <Link to="/contact" className="text-monkey-text hover:text-monkey transition-colors">
-            Contact
-          </Link>
+          
+          {/* Categories */}
+          <button 
+            onClick={() => handleCategoryClick("Technology")} 
+            className="text-monkey-text hover:text-monkey transition-colors"
+          >
+            Technology
+          </button>
+          <button 
+            onClick={() => handleCategoryClick("Business")} 
+            className="text-monkey-text hover:text-monkey transition-colors"
+          >
+            Business
+          </button>
+          <button 
+            onClick={() => handleCategoryClick("Lifestyle")} 
+            className="text-monkey-text hover:text-monkey transition-colors"
+          >
+            Lifestyle
+          </button>
+          <button 
+            onClick={() => handleCategoryClick("Innovation")} 
+            className="text-monkey-text hover:text-monkey transition-colors"
+          >
+            Innovation
+          </button>
         </nav>
-
-        <div className="hidden md:flex items-center gap-4">
-          <Button className="bg-monkey hover:bg-monkey-dark">Subscribe</Button>
-        </div>
 
         {/* Mobile Menu Button */}
         <button
@@ -84,35 +104,34 @@ const Navbar = () => {
             >
               Home
             </Link>
-            <Link
-              to="/blog"
-              className="block py-2 text-monkey-text hover:text-monkey"
-              onClick={() => setIsOpen(false)}
+            
+            {/* Mobile Categories */}
+            <button
+              onClick={() => handleCategoryClick("Technology")}
+              className="block py-2 text-left text-monkey-text hover:text-monkey"
             >
-              Blog
-            </Link>
-            <Link
-              to="/about"
-              className="block py-2 text-monkey-text hover:text-monkey"
-              onClick={() => setIsOpen(false)}
+              Technology
+            </button>
+            <button
+              onClick={() => handleCategoryClick("Business")}
+              className="block py-2 text-left text-monkey-text hover:text-monkey"
             >
-              About
-            </Link>
-            <Link
-              to="/contact"
-              className="block py-2 text-monkey-text hover:text-monkey"
-              onClick={() => setIsOpen(false)}
+              Business
+            </button>
+            <button
+              onClick={() => handleCategoryClick("Lifestyle")}
+              className="block py-2 text-left text-monkey-text hover:text-monkey"
             >
-              Contact
-            </Link>
-            <div className="pt-4 mt-2 border-t border-gray-100">
-              <Button
-                className="w-full bg-monkey hover:bg-monkey-dark"
-                onClick={() => setIsOpen(false)}
-              >
-                Subscribe
-              </Button>
-            </div>
+              Lifestyle
+            </button>
+            <button
+              onClick={() => handleCategoryClick("Innovation")}
+              className="block py-2 text-left text-monkey-text hover:text-monkey"
+            >
+              Innovation
+            </button>
+
+         
           </nav>
         </div>
       )}

@@ -1,7 +1,7 @@
-
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { api } from "@/services/api";
+import { useEffect } from "react";
+import api from "@/services/api";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ArticleCard from "@/components/ArticleCard";
@@ -10,6 +10,12 @@ import NotFound from "./NotFound";
 
 const Article = () => {
   const { slug } = useParams<{ slug: string }>();
+  const location = useLocation();
+  
+  // Effect to scroll to top when component mounts or when location changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   
   const { 
     data: article, 
@@ -95,17 +101,6 @@ const Article = () => {
                   {article.title}
                 </h1>
                 <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
-                  <div className="flex items-center gap-2">
-                    <img
-                      src={article.author.avatar}
-                      alt={article.author.name}
-                      className="h-10 w-10 rounded-full"
-                    />
-                    <div>
-                      <p className="font-medium">{article.author.name}</p>
-                      <p className="text-sm text-gray-500">Author</p>
-                    </div>
-                  </div>
                   <div>
                     <p className="font-medium">{article.publishedDate}</p>
                     <p className="text-sm text-gray-500">Published</p>
@@ -214,38 +209,6 @@ const Article = () => {
                         {tag}
                       </Link>
                     ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Author Bio */}
-        <div className="container mx-auto px-4 md:px-6 pb-16">
-          <div className="max-w-3xl mx-auto">
-            <div className="bg-gray-50 rounded-xl p-6 md:p-8">
-              <div className="flex flex-col sm:flex-row gap-6">
-                <img
-                  src={article.author.avatar}
-                  alt={article.author.name}
-                  className="h-20 w-20 rounded-full"
-                />
-                <div>
-                  <h3 className="text-xl font-semibold mb-2">{article.author.name}</h3>
-                  <p className="text-gray-600 mb-4">
-                    Content writer and digital enthusiast passionate about technology, design, and storytelling.
-                  </p>
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mr-2">
-                        <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
-                      </svg>
-                      Follow
-                    </Button>
-                    <Button variant="ghost" size="sm" className="text-monkey">
-                      View Profile
-                    </Button>
                   </div>
                 </div>
               </div>

@@ -1,8 +1,7 @@
-
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useSearchParams } from "react-router-dom";
-import { api } from "@/services/api";
+import { useSearchParams, useLocation } from "react-router-dom";
+import api from "@/services/api";
 import ArticleCard from "@/components/ArticleCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -11,15 +10,22 @@ import { Button } from "@/components/ui/button";
 const Blog = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
+  const location = useLocation();
   const pageSize = 9;
   
   const categoryParam = searchParams.get("category") || "";
   const tagParam = searchParams.get("tag") || "";
   
-  // Reset to page 1 when filters change
+  // Reset to page 1 when filters change and scroll to top
   useEffect(() => {
     setCurrentPage(1);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [categoryParam, tagParam]);
+
+  // Scroll to top when component mounts or location changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [location]);
 
   const { 
     data: articlesData, 
@@ -65,10 +71,12 @@ const Blog = () => {
     
     setSearchParams(newParams);
     setCurrentPage(1);
+    // Scroll to top is handled by the useEffect
   };
   
   const clearFilters = () => {
     setSearchParams({});
+    // Scroll to top is handled by the useEffect
   };
 
   return (
