@@ -11,13 +11,13 @@ const PrivacyPolicy = () => {
           <p>Last updated: {new Date().toLocaleDateString()}</p>
           
           <h2>1. Introduction</h2>
-          <p>Danvertise S.L.U with registered office in Singapore – 20 Collyer Quay #09-01 20 Collyer Quay Singapore 049319, Singapore, (hereinafter, "Data Controller"), as owner of the website (hereinafter, the "Website"), as Data Controller for the processing of personal data of users browsing the Website (hereinafter, "Users") below provides the Privacy Policy.</p>
+          <p>Danvertise S.L.U with registered office in Spain – C/Cristofor Colom 99, Vilassar de Mar 08340, Barcelona, Spain, (hereinafter, "Data Controller"), as owner of the website (hereinafter, the "Website"), as Data Controller for the processing of personal data of users browsing the Website (hereinafter, "Users") below provides the Privacy Policy.</p>
           
           <h2>2. Contact Information</h2>
           <p>The Data Controller takes utmost account of its Users' right to privacy and the protection of their personal data. For any information related to this Privacy Policy, Users can contact the Data Controller at any time, via any of the following means:</p>
           <ul>
-            <li>By sending a registered letter with return receipt to the registered office of the Data Controller (20 Collyer Quay #09-01 20 Collyer Quay Singapore 049319, Singapore)</li>
-            <li>By sending an email to the address contact@boredmonkee.com</li>
+            <li>By sending a registered letter with return receipt to the registered office of the Data Controller (C/Cristofor Colom 99, Vilassar de Mar 08340, Barcelona, Spain)</li>
+            <li>By sending an email to the address contact@contentcurrent.com</li>
           </ul>
           <p>The Data Controller has not identified a Data Protection Officer (DPO), not being obliged to appoint such an officer pursuant to Article 37 of the Regulation.</p>
           
@@ -45,8 +45,8 @@ const PrivacyPolicy = () => {
           <h2>6. Rights of the Data Subject</h2>
           <p>Users may exercise their rights by contacting the Data Controller via:</p>
           <ul>
-            <li>Registered letter to: 20 Collyer Quay #09-01 20 Collyer Quay Singapore 049319, Singapore</li>
-            <li>Email to: contact@boredmonkee.com</li>
+            <li>Registered letter to: C/Cristofor Colom 99, Vilassar de Mar 08340, Barcelona, Spain</li>
+            <li>Email to: contact@contentcurrent.com</li>
           </ul>
           
           <p>Users have the right to:</p>
