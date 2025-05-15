@@ -4,13 +4,20 @@ import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
   const handleCategoryClick = (category: string) => {
-    // Navigate to blog page with category filter
     navigate(`/blog?category=${category.toLowerCase()}`);
-    // Close mobile menu if open
     setIsOpen(false);
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/blog?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery("");
+    }
   };
 
   return (
@@ -20,13 +27,17 @@ const Navbar = () => {
           <span className="text-2xl font-bold text-monkey">The Content Current</span>
         </Link>
 
-        {/* Desktop Navigation */}
+        <form onSubmit={handleSearch} className="hidden md:block flex-1 max-w-xl mx-8">
+          <input
+            type="text"
+            placeholder="Search articles..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-monkey"
+          />
+        </form>
+
         <nav className="hidden md:flex items-center gap-6">
-          <Link to="/" className="text-monkey-text hover:text-monkey transition-colors">
-            Home
-          </Link>
-          
-          {/* Categories */}
           <button 
             onClick={() => handleCategoryClick("Technology")} 
             className="text-monkey-text hover:text-monkey transition-colors"
@@ -53,7 +64,6 @@ const Navbar = () => {
           </button>
         </nav>
 
-        {/* Mobile Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="md:hidden p-2 text-monkey-text"
@@ -67,12 +77,7 @@ const Navbar = () => {
               stroke="currentColor"
               className="h-6 w-6"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           ) : (
             <svg
@@ -82,30 +87,27 @@ const Navbar = () => {
               stroke="currentColor"
               className="h-6 w-6"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           )}
         </button>
       </div>
 
-      {/* Mobile Navigation */}
       {isOpen && (
         <div className="md:hidden px-4 py-6 bg-white border-t border-gray-100 animate-fade-in">
+          <form onSubmit={handleSearch} className="mb-4">
+            <input
+              type="text"
+              placeholder="Search articles..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-monkey"
+            />
+          </form>
           <nav className="flex flex-col gap-4">
-            <Link
-              to="/"
-              className="block py-2 text-monkey-text hover:text-monkey"
-              onClick={() => setIsOpen(false)}
-            >
+            <Link to="/" className="block py-2 text-monkey-text hover:text-monkey" onClick={() => setIsOpen(false)}>
               Home
             </Link>
-            
-            {/* Mobile Categories */}
             <button
               onClick={() => handleCategoryClick("Technology")}
               className="block py-2 text-left text-monkey-text hover:text-monkey"
@@ -130,8 +132,6 @@ const Navbar = () => {
             >
               Innovation
             </button>
-
-         
           </nav>
         </div>
       )}
