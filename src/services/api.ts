@@ -414,26 +414,17 @@ As we navigate this exciting era of innovation, let's ensure our technological f
 // Initialize our mock database
 const MOCK_ARTICLES = generateMockArticles();
 
-// API functions
 export default {
-  // Get all articles with optional filtering
   getArticles: async ({ 
     page = 1, 
     limit = 10, 
     category = '', 
-    tag = '' 
-  }: { 
-    page?: number; 
-    limit?: number; 
-    category?: string; 
-    tag?: string; 
-  } = {}) => {
-    // Simulate API delay
+    tag = '',
+    search = ''
+  }) => {
     await new Promise(resolve => setTimeout(resolve, 500));
-    
     let filteredArticles = [...MOCK_ARTICLES];
     
-    // Apply filters
     if (category) {
       filteredArticles = filteredArticles.filter(article => 
         article.category.toLowerCase() === category.toLowerCase()
@@ -446,7 +437,12 @@ export default {
       );
     }
     
-    // Calculate pagination
+    if (search) {
+      filteredArticles = filteredArticles.filter(article =>
+        article.title.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+    
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;
     const paginatedArticles = filteredArticles.slice(startIndex, endIndex);
