@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // ScrollToTop component that will scroll to top when route changes
 function ScrollToTop() {
@@ -28,6 +28,14 @@ function ScrollToTopLink(props) {
 // Modified Footer component using ScrollToTopLink
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const navigate = useNavigate();
+  
+  const handleCategoryClick = (category) => {
+    // Navigate to blog page with category filter
+    navigate(`/blog?category=${category.toLowerCase()}`);
+    // Scroll to top of the page
+    window.scrollTo(0, 0);
+  };
   
   return (
     <footer className="bg-gray-50 border-t border-gray-100 py-12 mt-20">
@@ -82,24 +90,36 @@ const Footer = () => {
           <h3 className="text-lg font-semibold mb-4">Categories</h3>
           <ul className="space-y-2">
             <li>
-              <ScrollToTopLink to="/category/technology" className="text-gray-600 hover:text-monkey transition-colors">
+              <button 
+                onClick={() => handleCategoryClick("Technology")} 
+                className="text-gray-600 hover:text-monkey transition-colors"
+              >
                 Technology
-              </ScrollToTopLink>
+              </button>
             </li>
             <li>
-              <ScrollToTopLink to="/category/business" className="text-gray-600 hover:text-monkey transition-colors">
+              <button 
+                onClick={() => handleCategoryClick("Business")} 
+                className="text-gray-600 hover:text-monkey transition-colors"
+              >
                 Business
-              </ScrollToTopLink>
+              </button>
             </li>
             <li>
-              <ScrollToTopLink to="/category/lifestyle" className="text-gray-600 hover:text-monkey transition-colors">
+              <button 
+                onClick={() => handleCategoryClick("Lifestyle")} 
+                className="text-gray-600 hover:text-monkey transition-colors"
+              >
                 Lifestyle
-              </ScrollToTopLink>
+              </button>
             </li>
             <li>
-              <ScrollToTopLink to="/category/innovation" className="text-gray-600 hover:text-monkey transition-colors">
+              <button 
+                onClick={() => handleCategoryClick("Innovation")} 
+                className="text-gray-600 hover:text-monkey transition-colors"
+              >
                 Innovation
-              </ScrollToTopLink>
+              </button>
             </li>
           </ul>
         </div>
