@@ -15,28 +15,25 @@ const Blog = () => {
   
   const categoryParam = searchParams.get("category") || "";
   const tagParam = searchParams.get("tag") || "";
-  
-  // Reset to page 1 when filters change and scroll to top
+  const searchParam = searchParams.get("search") || "";
+
   useEffect(() => {
     setCurrentPage(1);
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [categoryParam, tagParam]);
+  }, [categoryParam, tagParam, searchParam]);
 
-  // Scroll to top when component mounts or location changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [location]);
 
-  const { 
-    data: articlesData, 
-    isLoading: isArticlesLoading 
-  } = useQuery({
-    queryKey: ['articles', { page: currentPage, category: categoryParam, tag: tagParam }],
+  const { data: articlesData, isLoading: isArticlesLoading } = useQuery({
+    queryKey: ['articles', { page: currentPage, category: categoryParam, tag: tagParam, search: searchParam }],
     queryFn: () => api.getArticles({ 
       page: currentPage, 
       limit: pageSize,
       category: categoryParam,
-      tag: tagParam
+      tag: tagParam,
+      search: searchParam
     })
   });
 
@@ -57,60 +54,42 @@ const Blog = () => {
   
   const setFilter = (type: 'category' | 'tag', value: string) => {
     const newParams = new URLSearchParams(searchParams);
-    
-    // If clicking on active filter, remove it
-    if ((type === 'category' && categoryParam === value) || 
-        (type === 'tag' && tagParam === value)) {
+    if ((type === 'category' && categoryParam === value) || (type === 'tag' && tagParam === value)) {
       newParams.delete(type);
     } else {
       newParams.set(type, value);
-      // Reset the other filter
       if (type === 'category') newParams.delete('tag');
       if (type === 'tag') newParams.delete('category');
     }
-    
     setSearchParams(newParams);
     setCurrentPage(1);
-    // Scroll to top is handled by the useEffect
   };
   
   const clearFilters = () => {
     setSearchParams({});
-    // Scroll to top is handled by the useEffect
   };
 
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
       
-      {/* Header */}
       <section className="bg-white py-12 md:py-16 border-b border-gray-200">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
-              Blog
-            </h1>
-            <p className="text-xl text-gray-600">
-              Explore our collection of articles, guides, and insights
-            </p>
+            <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">Blog</h1>
+            <p className="text-xl text-gray-600">Explore our collection of articles, guides, and insights</p>
           </div>
         </div>
       </section>
       
       <section className="flex-1 py-12 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
-          {/* Filters */}
           <div className="mb-8">
             <div className="flex flex-wrap items-center gap-2 mb-6">
-              {(categoryParam || tagParam) && (
+              {(categoryParam || tagParam || searchParam) && (
                 <div className="flex items-center gap-2 mb-2 md:mb-0 mr-2">
                   <span className="text-sm font-medium">Active filters:</span>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="h-8"
-                    onClick={clearFilters}
-                  >
+                  <Button variant="outline" size="sm" className="h-8" onClick={clearFilters}>
                     Clear all
                   </Button>
                 </div>
@@ -143,9 +122,26 @@ const Blog = () => {
                   </button>
                 </div>
               )}
+              
+              {searchParam && (
+                <div className="inline-flex items-center gap-1 rounded-full border border-monkey px-3 py-1 text-sm">
+                  <span>Search: "{searchParam}"</span>
+                  <button 
+                    onClick={() => {
+                      const newParams = new URLSearchParams(searchParams);
+                      newParams.delete('search');
+                      setSearchParams(newParams);
+                    }} 
+                    className="ml-1 rounded-full bg-monkey-light/10 p-1"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              )}
             </div>
             
-            {/* Categories */}
             <div className="mb-4">
               <h3 className="mb-2 text-lg font-semibold">Categories</h3>
               <div className="flex flex-wrap gap-2">
@@ -158,12 +154,8 @@ const Blog = () => {
                     <button
                       key={category.name}
                       onClick={() => setFilter('category', category.name)}
-                      className={`
-                        rounded-full px-4 py-1 text-sm font-medium transition-colors
-                        ${categoryParam === category.name 
-                          ? 'bg-monkey text-white' 
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}
-                      `}
+                      className={`rounded-full px-4 py-1 text-sm font-medium transition-colors
+                        ${categoryParam === category.name ? 'bg-monkey text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
                     >
                       {category.name} ({category.count})
                     </button>
@@ -172,7 +164,6 @@ const Blog = () => {
               </div>
             </div>
             
-            {/* Tags */}
             <div>
               <h3 className="mb-2 text-lg font-semibold">Popular Tags</h3>
               <div className="flex flex-wrap gap-2">
@@ -185,12 +176,8 @@ const Blog = () => {
                     <button
                       key={tag.name}
                       onClick={() => setFilter('tag', tag.name)}
-                      className={`
-                        rounded-full px-4 py-1 text-sm font-medium transition-colors
-                        ${tagParam === tag.name 
-                          ? 'bg-ocean text-white' 
-                          : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'}
-                      `}
+                      className={`rounded-full px-4 py-1 text-sm font-medium transition-colors
+                        ${tagParam === tag.name ? 'bg-ocean text-white' : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'}`}
                     >
                       {tag.name}
                     </button>
@@ -200,7 +187,6 @@ const Blog = () => {
             </div>
           </div>
           
-          {/* Articles Grid */}
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {isArticlesLoading ? (
               Array.from({ length: pageSize }).map((_, i) => (
@@ -219,7 +205,6 @@ const Blog = () => {
             )}
           </div>
           
-          {/* Pagination */}
           {articlesData && articlesData.totalPages > 1 && (
             <div className="flex justify-center mt-12">
               <div className="flex gap-1">
@@ -238,14 +223,12 @@ const Blog = () => {
                 
                 {Array.from({ length: articlesData.totalPages }).map((_, i) => {
                   const page = i + 1;
-                  // Show first 3 pages, last 3 pages, and pages around current page
                   const showPage =
                     page <= 3 ||
                     page > articlesData.totalPages - 3 ||
                     Math.abs(page - currentPage) <= 1;
                   
                   if (!showPage) {
-                    // Show ellipsis only once between gaps
                     if (page === 4 || page === articlesData.totalPages - 3) {
                       return <span key={page} className="flex h-9 w-9 items-center justify-center">…</span>;
                     }
