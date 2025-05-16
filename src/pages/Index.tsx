@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 const Index = () => {
   const navigate = useNavigate();
 
-  // Get 2 featured articles instead of 1
+  // Get 2 featured articles
   const { data: featuredArticles, isLoading: isFeaturedLoading } = useQuery({
     queryKey: ['articles', 'featured'],
     queryFn: async () => {
@@ -19,23 +19,13 @@ const Index = () => {
     }
   });
 
-  // Get 3 recent articles, skipping the featured ones
-  const { data: recentArticles, isLoading: isRecentLoading } = useQuery({
-    queryKey: ['articles', 'recent'],
-    queryFn: async () => {
-      const result = await api.getArticles({ limit: 5 });
-      return result.articles.slice(2, 5); // Skip the first two as they're used for featured
-    }
-  });
-
-  // NEW: Get the latest 2025 articles (assuming current year is 2025)
-  const { data: latestArticles, isLoading: isLatestLoading } = useQuery({
+  // Get the latest 2025 articles
+  const { data: latestArticlesFrom2025, isLoading: is2025Loading } = useQuery({
     queryKey: ['articles', '2025'],
     queryFn: async () => {
-      // This would normally filter by date, but for our mock we'll just get more recent articles
-      const result = await api.getArticles({ limit: 3 });
-      // Get different articles than featured and recent
-      return result.articles.slice(5, 8);
+      // In a real app, we would filter by year 2025
+      const result = await api.getArticles({ year: "2025", limit: 3 });
+      return result.articles;
     }
   });
 
@@ -48,6 +38,11 @@ const Index = () => {
   const handleCategoryClick = (categoryName) => {
     navigate(`/blog?category=${categoryName}`);
     // This will trigger the scroll to top effect via the Blog component's useEffect
+  };
+  
+  // Function to navigate to blog with 2025 filter
+  const handleView2025Articles = () => {
+    navigate('/blog?year=2025');
   };
 
   return (
@@ -76,7 +71,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured Articles Section - Now shows 2 articles */}
+      {/* Featured Articles Section - Shows 2 articles */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row mb-12">
@@ -103,7 +98,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* NEW: Latest Articles from 2025 Section */}
+      {/* Latest Articles from 2025 Section */}
       <section className="py-16 bg-monkey-bg/5">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row mb-12">
@@ -111,18 +106,22 @@ const Index = () => {
               <h2 className="text-3xl font-bold tracking-tight">Latest from 2025</h2>
               <p className="text-gray-600">Fresh content exploring the cutting edge of technology.</p>
             </div>
-            <Button asChild className="bg-monkey hover:bg-monkey-dark text-white">
-              <Link to="/blog">Browse All 2025 Articles</Link>
+            <Button 
+              asChild 
+              className="bg-monkey hover:bg-monkey-dark text-white"
+              onClick={handleView2025Articles}
+            >
+              <Link to="/blog?year=2025">Browse All 2025 Articles</Link>
             </Button>
           </div>
           
           <div className="grid gap-6 md:grid-cols-3">
-            {isLatestLoading ? (
+            {is2025Loading ? (
               Array.from({ length: 3 }).map((_, i) => (
                 <div key={i} className="h-80 animate-pulse bg-gray-200 rounded-xl"></div>
               ))
             ) : (
-              latestArticles?.map((article) => (
+              latestArticlesFrom2025?.map((article) => (
                 <ArticleCard key={article.id} article={article} />
               ))
             )}
@@ -130,30 +129,12 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Recent Articles Section */}
-      <section className="py-16 bg-gray-50">
+      {/* View All Articles Button Section */}
+      <section className="py-12 bg-gray-50 text-center">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-col items-center justify-between gap-4 md:flex-row mb-12">
-            <div>
-              <h2 className="text-3xl font-bold tracking-tight">Recent Articles</h2>
-              <p className="text-gray-600">Check out our latest content.</p>
-            </div>
-            <Button asChild variant="outline" className="border-monkey text-monkey hover:bg-monkey-light/10">
-              <Link to="/blog">View All</Link>
-            </Button>
-          </div>
-          
-          <div className="grid gap-6 md:grid-cols-3">
-            {isRecentLoading ? (
-              Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="h-80 animate-pulse bg-gray-200 rounded-xl"></div>
-              ))
-            ) : (
-              recentArticles?.map((article) => (
-                <ArticleCard key={article.id} article={article} />
-              ))
-            )}
-          </div>
+          <Button asChild className="bg-monkey hover:bg-monkey-dark text-white px-8 py-6 text-lg">
+            <Link to="/blog">View All Articles</Link>
+          </Button>
         </div>
       </section>
 
