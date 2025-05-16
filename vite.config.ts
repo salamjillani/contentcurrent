@@ -19,8 +19,12 @@ export default defineConfig(({ mode }) => ({
     // Cloudflare Pages expects output to be in the 'dist' folder
     outDir: 'dist',
   },
-  // Add SPA fallback for client-side routing
+  // Correctly set up SPA fallback for client-side routing
   server: {
+    historyApiFallback: true,
+  },
+  preview: {
+    // Also enable history fallback for the preview server
     historyApiFallback: true,
   },
 }));
