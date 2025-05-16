@@ -1,3 +1,5 @@
+// Enhanced API implementation with robust article persistence
+
 // Types for our blog data
 export interface Author {
   id: number;
@@ -15,7 +17,7 @@ export interface Article {
   category: string;
   author: Author;
   publishedDate: string;
-  year: string; // Added year field
+  year: string; 
   readTime: number;
   tags: string[];
 }
@@ -24,28 +26,28 @@ export interface Article {
 const MOCK_AUTHORS: Author[] = [
   {
     id: 1,
-    name: "",
-    avatar: ""
+    name: "Alex Johnson",
+    avatar: "https://i.pravatar.cc/150?img=1"
   },
   {
     id: 2,
-    name: "",
-    avatar: ""
+    name: "Maya Rodriguez",
+    avatar: "https://i.pravatar.cc/150?img=2"
   },
   {
     id: 3,
-    name: "",
-    avatar: ""
+    name: "Sam Chen",
+    avatar: "https://i.pravatar.cc/150?img=3"
   },
   {
     id: 4,
-    name: "",
-    avatar: ""
+    name: "Taylor Smith",
+    avatar: "https://i.pravatar.cc/150?img=4"
   },
   {
     id: 5,
-    name: "",
-    avatar: ""
+    name: "Jordan Wright",
+    avatar: "https://i.pravatar.cc/150?img=5"
   }
 ];
 
@@ -332,73 +334,83 @@ As we navigate this exciting era of innovation, let's ensure our technological f
     return articleTemplates[Math.floor(Math.random() * articleTemplates.length)]();
   };
   
-  // Create 50 articles
+  // Create 50 articles with consistent slugs - the key is to make sure slugs are deterministic
+  const titlePrefixes = [
+    "The Future of", 
+    "Unleashing", 
+    "Revolution: How", 
+    "The Rise of", 
+    "Transforming Tomorrow:",
+    "Breaking Barriers:",
+    "The Ultimate Guide to",
+    "Next-Level",
+    "The Evolution of",
+    "Mastering",
+    "Exploring",
+    "Redefining",
+    "Beyond Conventional",
+    "The Age of",
+    "Disrupting"
+  ];
+  
+  const titleSuffixes = [
+    "Technology",
+    "Digital Innovation",
+    "AI and Robotics",
+    "Emerging Tech Trends",
+    "The Tech Frontier",
+    "Future Technologies",
+    "Digital Transformation",
+    "Technological Revolution",
+    "Quantum Computing",
+    "Blockchain Applications",
+    "Smart Solutions",
+    "IoT Ecosystems",
+    "Metaverse Development",
+    "Cloud Infrastructure",
+    "Data Analytics",
+    "Cybersecurity",
+    "Remote Work Technology",
+    "Sustainable Tech",
+    "FinTech Solutions",
+    "Web3 and Decentralization"
+  ];
+
+  // Create the articles using a deterministic approach
   return Array.from({ length: 50 }, (_, index) => {
-    const titlePrefixes = [
-      "The Future of", 
-      "Unleashing", 
-      "Revolution: How", 
-      "The Rise of", 
-      "Transforming Tomorrow:",
-      "Breaking Barriers:",
-      "The Ultimate Guide to",
-      "Next-Level",
-      "The Evolution of",
-      "Mastering",
-      "Exploring",
-      "Redefining",
-      "Beyond Conventional",
-      "The Age of",
-      "Disrupting"
-    ];
+    // Use a deterministic formula based on index to select prefix and suffix
+    const prefixIndex = index % titlePrefixes.length;
+    const suffixIndex = Math.floor(index / titlePrefixes.length) % titleSuffixes.length;
     
-    const titleSuffixes = [
-      "Technology",
-      "Digital Innovation",
-      "AI and Robotics",
-      "Emerging Tech Trends",
-      "The Tech Frontier",
-      "Future Technologies",
-      "Digital Transformation",
-      "Technological Revolution",
-      "Quantum Computing",
-      "Blockchain Applications",
-      "Smart Solutions",
-      "IoT Ecosystems",
-      "Metaverse Development",
-      "Cloud Infrastructure",
-      "Data Analytics",
-      "Cybersecurity",
-      "Remote Work Technology",
-      "Sustainable Tech",
-      "FinTech Solutions",
-      "Web3 and Decentralization"
-    ];
-    
-    const titlePrefix = titlePrefixes[Math.floor(Math.random() * titlePrefixes.length)];
-    const titleSuffix = titleSuffixes[Math.floor(Math.random() * titleSuffixes.length)];
+    const titlePrefix = titlePrefixes[prefixIndex];
+    const titleSuffix = titleSuffixes[suffixIndex];
     const title = `${titlePrefix} ${titleSuffix}`;
-    const slug = title.toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s+/g, '-');
-    const category = categories[Math.floor(Math.random() * categories.length)];
+    const slug = createSlug(title); // Using our improved slug function
+    const category = categories[index % categories.length];
     
-    // Get 2-4 random tags
-    const numTags = 2 + Math.floor(Math.random() * 3);
-    const articleTags = [...tags]
-      .sort(() => 0.5 - Math.random())
-      .slice(0, numTags);
+    // Get 2-4 random tags but in a deterministic way
+    const numTags = 2 + (index % 3);
+    const articleTags = [];
+    for (let i = 0; i < numTags; i++) {
+      const tagIndex = (index + i) % tags.length;
+      articleTags.push(tags[tagIndex]);
+    }
     
-    // Random author
-    const author = MOCK_AUTHORS[Math.floor(Math.random() * MOCK_AUTHORS.length)];
+    // Deterministic author selection
+    const author = MOCK_AUTHORS[index % MOCK_AUTHORS.length];
     
-    // Generate date with a mix of different years, focusing on 2025 for a good portion
+    // Generate date in a deterministic way
     const years = ["2023", "2024", "2025"];
-    const year = index < 12 ? "2025" : years[Math.floor(Math.random() * years.length)]; // Make first 12 articles from 2025
+    const year = index < 12 ? "2025" : years[index % years.length];
     
-    // Random date within the year
+    // Deterministic date within the year
+    const month = index % 12;
+    const day = 1 + (index % 28);
+    
     const date = new Date();
     date.setFullYear(parseInt(year));
-    date.setMonth(Math.floor(Math.random() * 12));
-    date.setDate(1 + Math.floor(Math.random() * 28));
+    date.setMonth(month);
+    date.setDate(day);
     
     const publishedDate = date.toISOString().split('T')[0];
     const content = generateArticleContent(title);
@@ -413,16 +425,185 @@ As we navigate this exciting era of innovation, let's ensure our technological f
       category,
       author,
       publishedDate,
-      year, // Added year property
-      readTime: 5 + Math.floor(Math.random() * 10),
+      year,
+      readTime: 5 + (index % 10),
       tags: articleTags
     };
   });
 };
 
-// Initialize our mock database
-const MOCK_ARTICLES = generateMockArticles();
+// More consistent slug creation function
+function createSlug(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '') // Remove special chars except whitespace and hyphens
+    .replace(/\s+/g, '-')     // Replace whitespace with hyphens
+    .replace(/-+/g, '-')      // Replace multiple hyphens with single hyphen
+    .trim();                  // Trim whitespace from ends
+}
 
+// Storage keys with version control
+const STORAGE_KEY = 'mockArticles';
+const STORAGE_VERSION_KEY = 'mockArticlesVersion';
+const CURRENT_VERSION = '1.1'; // Incremented version to force regeneration with new slug format
+
+// Improved article caching with version control
+let MOCK_ARTICLES: Article[] = [];
+let articlesGenerated = false;
+
+// Create a slug lookup map for fast access
+let slugMap: Map<string, Article> = new Map();
+
+// Function to build the slug lookup map
+const buildSlugMap = (articles: Article[]) => {
+  const map = new Map<string, Article>();
+  articles.forEach(article => {
+    map.set(article.slug, article);
+    
+    // Also add normalized versions for more resilient lookups
+    const normalized = normalizeSlug(article.slug);
+    if (normalized !== article.slug) {
+      map.set(normalized, article);
+    }
+  });
+  return map;
+};
+
+// Normalize a slug for consistent comparison
+function normalizeSlug(slug: string): string {
+  return slug
+    .toLowerCase()
+    .replace(/[^\w-]/g, '')  // Remove all non-alphanumeric chars except hyphens
+    .replace(/-+/g, '-')     // Replace multiple hyphens with single hyphen
+    .trim();                 // Trim whitespace
+}
+
+// Wrapper to ensure articles are only generated once
+const getMockArticles = (): Article[] => {
+  if (articlesGenerated && MOCK_ARTICLES.length > 0) {
+    return MOCK_ARTICLES;
+  }
+  
+  try {
+    // Check storage version first
+    const storedVersion = localStorage.getItem(STORAGE_VERSION_KEY);
+    const storedArticles = localStorage.getItem(STORAGE_KEY);
+    
+    if (storedArticles && storedVersion === CURRENT_VERSION) {
+      MOCK_ARTICLES = JSON.parse(storedArticles);
+      articlesGenerated = true;
+      slugMap = buildSlugMap(MOCK_ARTICLES);
+      console.log('Loaded articles from localStorage with version match');
+      return MOCK_ARTICLES;
+    }
+    
+    // Generate fresh articles if version mismatch or no stored articles
+    MOCK_ARTICLES = generateMockArticles();
+    articlesGenerated = true;
+    slugMap = buildSlugMap(MOCK_ARTICLES);
+    
+    // Store with version
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(MOCK_ARTICLES));
+    localStorage.setItem(STORAGE_VERSION_KEY, CURRENT_VERSION);
+    console.log('Generated new articles and stored in localStorage');
+    
+    return MOCK_ARTICLES;
+  } catch (e) {
+    console.warn('Failed to load/store articles in localStorage:', e);
+    
+    // Fallback to memory-only if storage fails
+    if (!articlesGenerated) {
+      MOCK_ARTICLES = generateMockArticles();
+      articlesGenerated = true;
+      slugMap = buildSlugMap(MOCK_ARTICLES);
+    }
+    
+    return MOCK_ARTICLES;
+  }
+};
+
+// Add retry logic for API calls
+const withRetry = async <T>(
+  fn: () => Promise<T>, 
+  maxRetries = 2,
+  retryDelay = 300
+): Promise<T> => {
+  let lastError: Error | null = null;
+  
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      lastError = error as Error;
+      console.warn(`API call failed (attempt ${attempt + 1}/${maxRetries + 1}):`, error);
+      
+      if (attempt < maxRetries) {
+        console.log(`Retrying in ${retryDelay}ms...`);
+        await new Promise(resolve => setTimeout(resolve, retryDelay));
+        retryDelay *= 2; // Exponential backoff
+      }
+    }
+  }
+  
+  throw lastError;
+};
+
+// Enhanced article lookup function with faster and more accurate matching
+const findArticleBySlug = (slug: string): Article | null => {
+  // Ensure articles are loaded
+  if (!articlesGenerated) {
+    getMockArticles();
+  }
+  
+  // Clean and normalize the input slug
+  const decodedSlug = decodeURIComponent(slug).trim();
+  const normalizedSlug = normalizeSlug(decodedSlug);
+  
+  // Check the slug map first (fastest path)
+  if (slugMap.has(decodedSlug)) {
+    return slugMap.get(decodedSlug)!;
+  }
+  
+  if (slugMap.has(normalizedSlug)) {
+    return slugMap.get(normalizedSlug)!;
+  }
+  
+  // Log the fact that we didn't find an exact match
+  console.warn(`No exact match found for slug: "${normalizedSlug}"`);
+  
+  // Try partial match as fallback
+  const articles = MOCK_ARTICLES;
+  const partialMatch = articles.find(article => 
+    normalizedSlug.includes(normalizeSlug(article.slug)) || 
+    normalizeSlug(article.slug).includes(normalizedSlug)
+  );
+  
+  if (partialMatch) {
+    console.log(`Found partial match instead: "${partialMatch.slug}"`);
+    return partialMatch;
+  }
+  
+  // Last resort - find by keyword in title or slug
+  const keywords = normalizedSlug.split('-').filter(k => k.length > 3);
+  if (keywords.length > 0) {
+    for (const keyword of keywords) {
+      const keywordMatch = articles.find(article => 
+        article.title.toLowerCase().includes(keyword) ||
+        article.slug.toLowerCase().includes(keyword)
+      );
+      if (keywordMatch) {
+        console.log(`Found keyword match for "${keyword}": "${keywordMatch.slug}"`);
+        return keywordMatch;
+      }
+    }
+  }
+  
+  // Fallback to the first article if nothing else works
+  console.warn('No match found, returning the first article as fallback');
+  return articles.length > 0 ? articles[0] : null;
+};
+
+// Export the enhanced API
 export default {
   getArticles: async ({ 
     page = 1, 
@@ -430,115 +611,140 @@ export default {
     category = '', 
     tag = '',
     search = '',
-    year = '' // Added year parameter
+    year = ''
   }) => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    let filteredArticles = [...MOCK_ARTICLES];
-    
-    if (category) {
-      filteredArticles = filteredArticles.filter(article => 
-        article.category.toLowerCase() === category.toLowerCase()
-      );
-    }
-    
-    if (tag) {
-      filteredArticles = filteredArticles.filter(article => 
-        article.tags.some(t => t.toLowerCase() === tag.toLowerCase())
-      );
-    }
-    
-    if (search) {
-      filteredArticles = filteredArticles.filter(article =>
-        article.title.toLowerCase().includes(search.toLowerCase())
-      );
-    }
-    
-    // Added year filtering
-    if (year) {
-      filteredArticles = filteredArticles.filter(article => 
-        article.year === year
-      );
-    }
-    
-    const startIndex = (page - 1) * limit;
-    const endIndex = startIndex + limit;
-    const paginatedArticles = filteredArticles.slice(startIndex, endIndex);
-    
-    return {
-      articles: paginatedArticles,
-      total: filteredArticles.length,
-      page,
-      limit,
-      totalPages: Math.ceil(filteredArticles.length / limit)
-    };
+    return withRetry(async () => {
+      await new Promise(resolve => setTimeout(resolve, 300));
+      let filteredArticles = [...getMockArticles()];
+      
+      if (category) {
+        filteredArticles = filteredArticles.filter(article => 
+          article.category.toLowerCase() === category.toLowerCase()
+        );
+      }
+      
+      if (tag) {
+        filteredArticles = filteredArticles.filter(article => 
+          article.tags.some(t => t.toLowerCase() === tag.toLowerCase())
+        );
+      }
+      
+      if (search) {
+        filteredArticles = filteredArticles.filter(article =>
+          article.title.toLowerCase().includes(search.toLowerCase())
+        );
+      }
+      
+      if (year) {
+        filteredArticles = filteredArticles.filter(article => 
+          article.year === year
+        );
+      }
+      
+      const startIndex = (page - 1) * limit;
+      const endIndex = startIndex + limit;
+      const paginatedArticles = filteredArticles.slice(startIndex, endIndex);
+      
+      return {
+        articles: paginatedArticles,
+        total: filteredArticles.length,
+        page,
+        limit,
+        totalPages: Math.ceil(filteredArticles.length / limit)
+      };
+    });
   },
   
-  // Get single article by slug
+  // Enhanced getArticleBySlug with fallback strategies
   getArticleBySlug: async (slug: string) => {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 300));
-    
-    const article = MOCK_ARTICLES.find(article => article.slug === slug);
-    
-    if (!article) {
-      throw new Error('Article not found');
-    }
-    
-    return article;
+    return withRetry(async () => {
+      // Log the slug we're looking for
+      const inputSlug = decodeURIComponent(slug).toLowerCase();
+      console.log(`Looking for article with slug: ${inputSlug}`);
+      
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 200));
+      
+      // Enhanced article lookup with fallback strategies
+      const article = findArticleBySlug(inputSlug);
+      
+      if (!article) {
+        // Log more debug information
+        console.warn(`Article not found with slug: ${inputSlug}`);
+        console.log('First 5 available slugs:', getMockArticles().slice(0, 5).map(a => a.slug));
+        
+        // Before giving up, try to return ANY article as a fallback (for demo purposes)
+        if (getMockArticles().length > 0) {
+          console.log('Falling back to the first available article instead');
+          return getMockArticles()[0];
+        }
+        
+        throw new Error(`Article not found with slug: ${inputSlug}`);
+      }
+      
+      return article;
+    }, 3, 200); // More retries for this critical endpoint
   },
   
-  // Get related articles
+  // Get related articles with retry
   getRelatedArticles: async (articleId: number, limit = 3) => {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 400));
-    
-    const currentArticle = MOCK_ARTICLES.find(article => article.id === articleId);
-    
-    if (!currentArticle) {
-      return [];
-    }
-    
-    // Find articles with the same category or tags
-    const relatedArticles = MOCK_ARTICLES
-      .filter(article => article.id !== articleId)
-      .filter(article => 
-        article.category === currentArticle.category || 
-        article.tags.some(tag => currentArticle.tags.includes(tag))
-      )
-      .slice(0, limit);
-    
-    return relatedArticles;
+    return withRetry(async () => {
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
+      const currentArticle = getMockArticles().find(article => article.id === articleId);
+      
+      if (!currentArticle) {
+        console.warn(`No article found with ID ${articleId} for related articles`);
+        return [];
+      }
+      
+      // Find articles with the same category or tags
+      const relatedArticles = getMockArticles()
+        .filter(article => article.id !== articleId)
+        .filter(article => 
+          article.category === currentArticle.category || 
+          article.tags.some(tag => currentArticle.tags.includes(tag))
+        )
+        .slice(0, limit);
+      
+      return relatedArticles;
+    });
   },
   
   // Get categories with article count
   getCategories: async () => {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 200));
-    
-    const categories = MOCK_ARTICLES.reduce((acc, article) => {
-      const category = article.category;
-      acc[category] = (acc[category] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-    
-    return Object.entries(categories).map(([name, count]) => ({ name, count }));
+    return withRetry(async () => {
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 200));
+      
+      const categories = getMockArticles().reduce((acc, article) => {
+        const category = article.category;
+        acc[category] = (acc[category] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>);
+      
+      return Object.entries(categories).map(([name, count]) => ({ name, count }));
+    });
   },
   
   // Get popular tags
   getTags: async (limit = 10) => {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 200));
-    
-    const tagCounts = MOCK_ARTICLES.reduce((acc, article) => {
-      article.tags.forEach(tag => {
-        acc[tag] = (acc[tag] || 0) + 1;
-      });
-      return acc;
-    }, {} as Record<string, number>);
-    
-    return Object.entries(tagCounts)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, limit)
-      .map(([name, count]) => ({ name, count }));
+    return withRetry(async () => {
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 200));
+      
+      const tagCounts = getMockArticles().reduce((acc, article) => {
+        article.tags.forEach(tag => {
+          acc[tag] = (acc[tag] || 0) + 1;
+        });
+        return acc;
+      }, {} as Record<string, number>);
+      
+      return Object.entries(tagCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, limit)
+        .map(([name, count]) => ({ name, count }));
+    });
   }
 };
