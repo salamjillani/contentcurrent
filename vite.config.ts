@@ -1,33 +1,23 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { componentTagger } from "lovable-tagger";
 
-// https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
-  plugins: [
-    react(),
-    // Only enable componentTagger in development mode
-    mode === 'development' && componentTagger(),
-  ].filter(Boolean),
+export default defineConfig({
+  plugins: [react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
   build: {
-    // Cloudflare Pages expects output to be in the 'dist' folder
     outDir: 'dist',
+    rollupOptions: {
+      input: './index.html'
+    }
   },
-  // Enhanced SPA fallback for client-side routing
+  base: '/',
   server: {
-    historyApiFallback: true,
     port: 3000,
-    open: true,
-  },
-  preview: {
-    // Also enable history fallback for the preview server
-    historyApiFallback: true,
-    port: 4173,
-  },
-}))
+    open: true
+  }
+});
