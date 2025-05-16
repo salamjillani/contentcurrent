@@ -1,6 +1,6 @@
 import { useParams, Link, useLocation } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import api from "@/services/api";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -11,31 +11,74 @@ import NotFound from "./NotFound";
 const Article = () => {
   const { slug } = useParams<{ slug: string }>();
   const location = useLocation();
+  const queryClient = useQueryClient();
+  const [notFound, setNotFound] = useState(false);
   
-  // Effect to scroll to top when component mounts or when location changes
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
-  
+
+  // Normalize slug for consistency
+  const normalizedSlug = slug ? decodeURIComponent(slug).toLowerCase() : '';
+
   const { 
     data: article, 
     isLoading, 
-    error 
+    error,
+    isError 
   } = useQuery({
-    queryKey: ['article', slug],
-    queryFn: () => api.getArticleBySlug(slug || ''),
-    enabled: !!slug
+    queryKey: ['article', normalizedSlug],
+    queryFn: async () => {
+      try {
+        // Special handling if this is after a page refresh
+        if (window.performance) {
+          const navEntries = performance.getEntriesByType('navigation');
+          if (
+            navEntries.length > 0 &&
+            (navEntries[0] as PerformanceNavigationTiming).type === 'reload'
+          ) {
+            console.log('Page was reloaded, adding extra retry logic');
+            // Retry logic specific for page reload scenario
+            await new Promise(resolve => setTimeout(resolve, 500));
+          }
+        }
+        
+        console.log(`Fetching article with slug: ${normalizedSlug}`);
+        const result = await api.getArticleBySlug(normalizedSlug);
+        return result;
+      } catch (err) {
+        console.error('Failed to fetch article:', err);
+        setNotFound(true);
+        throw err;
+      }
+    },
+    enabled: !!normalizedSlug,
+    retry: 2,
+    retryDelay: attempt => Math.min(attempt > 1 ? 3000 : 1000, 30 * 1000),
+    refetchOnWindowFocus: false,
+    staleTime: 5 * 60 * 1000, // 5 minutes
   });
-  
+
   const { 
     data: relatedArticles, 
     isLoading: isRelatedLoading 
   } = useQuery({
     queryKey: ['related-articles', article?.id],
     queryFn: () => api.getRelatedArticles(article?.id || 0),
-    enabled: !!article?.id
+    enabled: !!article?.id,
+    staleTime: 5 * 60 * 1000,
+    retry: 1
   });
-  
+
+  // Enhanced error handling
+  useEffect(() => {
+    if (isError) {
+      console.error('Error loading article:', error);
+      setNotFound(true);
+    }
+  }, [isError, error]);
+
+  // Early return for loading state
   if (isLoading) {
     return (
       <div className="flex min-h-screen flex-col">
@@ -55,8 +98,9 @@ const Article = () => {
       </div>
     );
   }
-  
-  if (error || !article) {
+
+  // Check for not found state
+  if (notFound || !article) {
     return <NotFound />;
   }
 
@@ -65,7 +109,6 @@ const Article = () => {
       <Navbar />
       
       <article className="flex-1">
-        {/* Hero Section */}
         <div className="bg-monkey-bg py-10">
           <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-3xl mx-auto">
@@ -115,7 +158,6 @@ const Article = () => {
           </div>
         </div>
         
-        {/* Featured Image */}
         <div className="container mx-auto px-4 md:px-6 -mt-6">
           <div className="max-w-4xl mx-auto">
             <div className="aspect-w-16 aspect-h-9 mb-12 overflow-hidden rounded-xl shadow-lg">
@@ -123,18 +165,16 @@ const Article = () => {
                 src={article.coverImage}
                 alt={article.title}
                 className="h-full w-full object-cover"
+                loading="lazy"
               />
             </div>
           </div>
         </div>
         
-        {/* Article Content */}
         <div className="container mx-auto px-4 md:px-6 py-12">
           <div className="max-w-3xl mx-auto">
             <div className="article-content">
-              {/* Convert markdown-like content to HTML */}
               {article.content.split('\n\n').map((paragraph, index) => {
-                // Handle headings
                 if (paragraph.startsWith('## ')) {
                   return <h2 key={index} className="text-2xl font-bold mt-8 mb-4">{paragraph.slice(3)}</h2>;
                 }
@@ -142,20 +182,17 @@ const Article = () => {
                   return <h3 key={index} className="text-xl font-bold mt-6 mb-3">{paragraph.slice(4)}</h3>;
                 }
                 
-                // Handle lists
                 if (paragraph.includes('1. ')) {
                   const items = paragraph.split('\n').filter(item => item.trim());
                   return (
                     <ol key={index} className="list-decimal pl-6 my-4 space-y-2">
-                      {items.map((item, i) => {
-                        const content = item.replace(/^\d+\.\s/, '');
-                        return <li key={i}>{content}</li>;
-                      })}
+                      {items.map((item, i) => (
+                        <li key={i}>{item.replace(/^\d+\.\s/, '')}</li>
+                      ))}
                     </ol>
                   );
                 }
                 
-                // Handle blockquotes
                 if (paragraph.startsWith('> ')) {
                   return (
                     <blockquote key={index} className="border-l-4 border-monkey-light pl-4 italic my-6 text-gray-700">
@@ -164,17 +201,14 @@ const Article = () => {
                   );
                 }
                 
-                // Regular paragraph
                 return <p key={index} className="mb-6">{paragraph}</p>;
               })}
               
-              {/* Add AI Attribution Notice */}
               <div className="mt-10 py-4 px-6 bg-gray-100 border-l-4 border-monkey rounded-md">
                 <p className="text-gray-700 font-medium">This Article Was Generated By AI</p>
               </div>
             </div>
             
-            {/* Share & Tags */}
             <div className="mt-12 pt-12 border-t border-gray-200">
               <div className="flex flex-col sm:flex-row justify-between gap-6">
                 <div>
@@ -222,7 +256,6 @@ const Article = () => {
         </div>
       </article>
       
-      {/* Related Articles */}
       <section className="bg-gray-50 py-16">
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl font-bold mb-12 text-center">Related Articles</h2>
