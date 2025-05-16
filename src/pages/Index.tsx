@@ -33,9 +33,9 @@ const Index = () => {
     queryKey: ['articles', '2025'],
     queryFn: async () => {
       // This would normally filter by date, but for our mock we'll just get more recent articles
-      const result = await api.getArticles({ limit: 6 });
+      const result = await api.getArticles({ limit: 3 });
       // Get different articles than featured and recent
-      return result.articles.slice(5, 11);
+      return result.articles.slice(5, 8);
     }
   });
 
@@ -116,9 +116,9 @@ const Index = () => {
             </Button>
           </div>
           
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-3">
             {isLatestLoading ? (
-              Array.from({ length: 6 }).map((_, i) => (
+              Array.from({ length: 3 }).map((_, i) => (
                 <div key={i} className="h-80 animate-pulse bg-gray-200 rounded-xl"></div>
               ))
             ) : (
