@@ -15,6 +15,7 @@ export interface Article {
   category: string;
   author: Author;
   publishedDate: string;
+  year: string; // Added year field
   readTime: number;
   tags: string[];
 }
@@ -331,7 +332,7 @@ As we navigate this exciting era of innovation, let's ensure our technological f
     return articleTemplates[Math.floor(Math.random() * articleTemplates.length)]();
   };
   
-  // Increase number of articles from 20 to 50
+  // Create 50 articles
   return Array.from({ length: 50 }, (_, index) => {
     const titlePrefixes = [
       "The Future of", 
@@ -389,10 +390,17 @@ As we navigate this exciting era of innovation, let's ensure our technological f
     // Random author
     const author = MOCK_AUTHORS[Math.floor(Math.random() * MOCK_AUTHORS.length)];
     
-    // Random date within the last year
-    const date = new Date();
-    date.setDate(date.getDate() - Math.floor(Math.random() * 365));
+    // Generate date with a mix of different years, focusing on 2025 for a good portion
+    const years = ["2023", "2024", "2025"];
+    const year = index < 12 ? "2025" : years[Math.floor(Math.random() * years.length)]; // Make first 12 articles from 2025
     
+    // Random date within the year
+    const date = new Date();
+    date.setFullYear(parseInt(year));
+    date.setMonth(Math.floor(Math.random() * 12));
+    date.setDate(1 + Math.floor(Math.random() * 28));
+    
+    const publishedDate = date.toISOString().split('T')[0];
     const content = generateArticleContent(title);
     
     return {
@@ -404,7 +412,8 @@ As we navigate this exciting era of innovation, let's ensure our technological f
       coverImage: `https://picsum.photos/seed/${index + 1}/800/450`,
       category,
       author,
-      publishedDate: date.toISOString().split('T')[0],
+      publishedDate,
+      year, // Added year property
       readTime: 5 + Math.floor(Math.random() * 10),
       tags: articleTags
     };
@@ -420,7 +429,8 @@ export default {
     limit = 10, 
     category = '', 
     tag = '',
-    search = ''
+    search = '',
+    year = '' // Added year parameter
   }) => {
     await new Promise(resolve => setTimeout(resolve, 500));
     let filteredArticles = [...MOCK_ARTICLES];
@@ -440,6 +450,13 @@ export default {
     if (search) {
       filteredArticles = filteredArticles.filter(article =>
         article.title.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+    
+    // Added year filtering
+    if (year) {
+      filteredArticles = filteredArticles.filter(article => 
+        article.year === year
       );
     }
     
