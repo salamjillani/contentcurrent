@@ -10,19 +10,32 @@ import { Button } from "@/components/ui/button";
 const Index = () => {
   const navigate = useNavigate();
 
+  // Get 2 featured articles instead of 1
   const { data: featuredArticles, isLoading: isFeaturedLoading } = useQuery({
     queryKey: ['articles', 'featured'],
     queryFn: async () => {
-      const result = await api.getArticles({ limit: 1 });
+      const result = await api.getArticles({ limit: 2 });
       return result.articles;
     }
   });
 
+  // Get 3 recent articles, skipping the featured ones
   const { data: recentArticles, isLoading: isRecentLoading } = useQuery({
     queryKey: ['articles', 'recent'],
     queryFn: async () => {
-      const result = await api.getArticles({ limit: 3 });
-      return result.articles.slice(1, 4); // Skip the first one as it's used for featured
+      const result = await api.getArticles({ limit: 5 });
+      return result.articles.slice(2, 5); // Skip the first two as they're used for featured
+    }
+  });
+
+  // NEW: Get the latest 2025 articles (assuming current year is 2025)
+  const { data: latestArticles, isLoading: isLatestLoading } = useQuery({
+    queryKey: ['articles', '2025'],
+    queryFn: async () => {
+      // This would normally filter by date, but for our mock we'll just get more recent articles
+      const result = await api.getArticles({ limit: 6 });
+      // Get different articles than featured and recent
+      return result.articles.slice(5, 11);
     }
   });
 
@@ -63,23 +76,55 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured Article Section */}
+      {/* Featured Articles Section - Now shows 2 articles */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row mb-12">
             <div>
-              <h2 className="text-3xl font-bold tracking-tight">Featured Article</h2>
-              <p className="text-gray-600">Our top pick for you to read today.</p>
+              <h2 className="text-3xl font-bold tracking-tight">Featured Articles</h2>
+              <p className="text-gray-600">Our top picks for you to read today.</p>
             </div>
+            <Button asChild variant="outline" className="border-monkey text-monkey hover:bg-monkey-light/10">
+              <Link to="/blog">View All</Link>
+            </Button>
           </div>
           
-          <div className="grid gap-6">
+          <div className="grid gap-6 md:grid-cols-2">
             {isFeaturedLoading ? (
-              <div className="col-span-full h-96 animate-pulse bg-gray-200 rounded-xl"></div>
+              Array.from({ length: 2 }).map((_, i) => (
+                <div key={i} className="h-96 animate-pulse bg-gray-200 rounded-xl"></div>
+              ))
             ) : (
-              featuredArticles && featuredArticles.length > 0 && (
-                <ArticleCard article={featuredArticles[0]} featured />
-              )
+              featuredArticles && featuredArticles.map((article) => (
+                <ArticleCard key={article.id} article={article} featured />
+              ))
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* NEW: Latest Articles from 2025 Section */}
+      <section className="py-16 bg-monkey-bg/5">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex flex-col items-center justify-between gap-4 md:flex-row mb-12">
+            <div>
+              <h2 className="text-3xl font-bold tracking-tight">Latest from 2025</h2>
+              <p className="text-gray-600">Fresh content exploring the cutting edge of technology.</p>
+            </div>
+            <Button asChild className="bg-monkey hover:bg-monkey-dark text-white">
+              <Link to="/blog">Browse All 2025 Articles</Link>
+            </Button>
+          </div>
+          
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {isLatestLoading ? (
+              Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="h-80 animate-pulse bg-gray-200 rounded-xl"></div>
+              ))
+            ) : (
+              latestArticles?.map((article) => (
+                <ArticleCard key={article.id} article={article} />
+              ))
             )}
           </div>
         </div>
@@ -98,7 +143,7 @@ const Index = () => {
             </Button>
           </div>
           
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-3">
             {isRecentLoading ? (
               Array.from({ length: 3 }).map((_, i) => (
                 <div key={i} className="h-80 animate-pulse bg-gray-200 rounded-xl"></div>
