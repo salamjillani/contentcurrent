@@ -7,5 +7,10 @@
     "/*.ico",
     "/*.svg",
     "/*.png"
+  ],
+  "routes": [
+    { "src": "/blog/.*", "dest": "/index.html" },
+    { "src": "/blog", "dest": "/index.html" },
+    { "src": ".*", "dest": "/index.html" }
   ]
 }
