@@ -173,11 +173,6 @@ const Contact = () => {
               {/* Company Information Box */}
               <div className="mt-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
                 <h3 className="text-xl font-semibold mb-3">Danvertise S.L.U</h3>
-                <p className="text-gray-600 mb-2">Official Corporate Name</p>
-                <p className="text-sm text-gray-500">
-                  Registration Number: B-12345678<br />
-                  VAT ID: ESB12345678
-                </p>
               </div>
               
               <div className="mt-8">
