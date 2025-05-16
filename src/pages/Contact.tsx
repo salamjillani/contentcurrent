@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -53,6 +52,11 @@ const Contact = () => {
             <p className="mb-8 text-xl text-gray-600">
               Have questions, feedback, or just want to say hello? We'd love to hear from you!
             </p>
+            <div className="inline-block px-6 py-3 bg-white rounded-lg shadow-sm border border-gray-100">
+              <p className="text-lg font-medium text-gray-800">
+                Get in touch with Danvertise S.L.U
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -139,8 +143,6 @@ const Contact = () => {
               </p>
               
               <div className="space-y-6">
-
-                
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 bg-monkey-light/20 text-monkey rounded-full flex items-center justify-center flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -168,7 +170,17 @@ const Contact = () => {
                 </div>
               </div>
               
-              <div className="mt-12">
+              {/* Company Information Box */}
+              <div className="mt-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
+                <h3 className="text-xl font-semibold mb-3">Danvertise S.L.U</h3>
+                <p className="text-gray-600 mb-2">Official Corporate Name</p>
+                <p className="text-sm text-gray-500">
+                  Registration Number: B-12345678<br />
+                  VAT ID: ESB12345678
+                </p>
+              </div>
+              
+              <div className="mt-8">
                 <h3 className="text-xl font-semibold mb-4">Follow Us</h3>
                 <div className="flex gap-4">
                   <a
@@ -249,6 +261,15 @@ const Contact = () => {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+      
+      {/* Corporate Footer */}
+      <section className="bg-monkey-bg py-8">
+        <div className="container mx-auto px-4 md:px-6 text-center">
+          <p className="text-gray-700 font-medium">
+            © 2025 Danvertise S.L.U - All rights reserved
+          </p>
         </div>
       </section>
       
