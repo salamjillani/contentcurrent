@@ -16,24 +16,26 @@ const Blog = () => {
   const categoryParam = searchParams.get("category") || "";
   const tagParam = searchParams.get("tag") || "";
   const searchParam = searchParams.get("search") || "";
+  const yearParam = searchParams.get("year") || "";
 
   useEffect(() => {
     setCurrentPage(1);
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [categoryParam, tagParam, searchParam]);
+  }, [categoryParam, tagParam, searchParam, yearParam]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [location]);
 
   const { data: articlesData, isLoading: isArticlesLoading } = useQuery({
-    queryKey: ['articles', { page: currentPage, category: categoryParam, tag: tagParam, search: searchParam }],
+    queryKey: ['articles', { page: currentPage, category: categoryParam, tag: tagParam, search: searchParam, year: yearParam }],
     queryFn: () => api.getArticles({ 
       page: currentPage, 
       limit: pageSize,
       category: categoryParam,
       tag: tagParam,
-      search: searchParam
+      search: searchParam,
+      year: yearParam
     })
   });
 
@@ -52,14 +54,27 @@ const Blog = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   
-  const setFilter = (type: 'category' | 'tag', value: string) => {
+  const setFilter = (type: 'category' | 'tag' | 'year', value: string) => {
     const newParams = new URLSearchParams(searchParams);
-    if ((type === 'category' && categoryParam === value) || (type === 'tag' && tagParam === value)) {
+    if ((type === 'category' && categoryParam === value) || 
+        (type === 'tag' && tagParam === value) || 
+        (type === 'year' && yearParam === value)) {
       newParams.delete(type);
     } else {
       newParams.set(type, value);
-      if (type === 'category') newParams.delete('tag');
-      if (type === 'tag') newParams.delete('category');
+      // Reset other filters when selecting a new one
+      if (type === 'category') {
+        newParams.delete('tag');
+        newParams.delete('year');
+      }
+      if (type === 'tag') {
+        newParams.delete('category');
+        newParams.delete('year');
+      }
+      if (type === 'year') {
+        newParams.delete('category');
+        newParams.delete('tag');
+      }
     }
     setSearchParams(newParams);
     setCurrentPage(1);
@@ -86,7 +101,7 @@ const Blog = () => {
         <div className="container mx-auto px-4 md:px-6">
           <div className="mb-8">
             <div className="flex flex-wrap items-center gap-2 mb-6">
-              {(categoryParam || tagParam || searchParam) && (
+              {(categoryParam || tagParam || searchParam || yearParam) && (
                 <div className="flex items-center gap-2 mb-2 md:mb-0 mr-2">
                   <span className="text-sm font-medium">Active filters:</span>
                   <Button variant="outline" size="sm" className="h-8" onClick={clearFilters}>
@@ -123,6 +138,20 @@ const Blog = () => {
                 </div>
               )}
               
+              {yearParam && (
+                <div className="inline-flex items-center gap-1 rounded-full border border-monkey px-3 py-1 text-sm">
+                  <span>Year: {yearParam}</span>
+                  <button 
+                    onClick={() => setFilter('year', yearParam)} 
+                    className="ml-1 rounded-full bg-monkey-light/10 p-1"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              )}
+              
               {searchParam && (
                 <div className="inline-flex items-center gap-1 rounded-full border border-monkey px-3 py-1 text-sm">
                   <span>Search: "{searchParam}"</span>
@@ -140,6 +169,20 @@ const Blog = () => {
                   </button>
                 </div>
               )}
+            </div>
+            
+            {/* Year filter for 2025 */}
+            <div className="mb-4">
+              <h3 className="mb-2 text-lg font-semibold">Year</h3>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setFilter('year', '2025')}
+                  className={`rounded-full px-4 py-1 text-sm font-medium transition-colors
+                    ${yearParam === '2025' ? 'bg-monkey text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                >
+                  2025
+                </button>
+              </div>
             </div>
             
             <div className="mb-4">
