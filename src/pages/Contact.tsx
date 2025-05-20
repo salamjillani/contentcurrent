@@ -61,18 +61,9 @@ const Contact = () => {
         </div>
       </section>
       
-      {/* Company Information Section */}
+      {/* Contact Form & Info */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="bg-white p-8 rounded-xl shadow-md mb-8">
-            <h2 className="text-2xl font-bold mb-4">Company Information</h2>
-            <p>Legal Entity Name: Danvertise S.L.U</p>
-            <p>Address: C/Cristofor Colom 99, Vilassar de Mar 08340, Barcelona, Spain</p>
-            <p>Email: contact@contentcurrent.com</p>
-            <p>Phone: +34 123 456 789</p>
-          </div>
-          
-          {/* Contact Form & Info */}
           <div className="grid gap-12 md:grid-cols-2">
             {/* Contact Form */}
             <div className="bg-white p-8 rounded-xl shadow-md">
