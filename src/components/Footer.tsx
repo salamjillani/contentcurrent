@@ -128,11 +128,6 @@ const Footer = () => {
         <p className="text-center text-gray-500">
           &copy; {currentYear} Danvertise S.L.U. All rights reserved.
         </p>
-        <div className="mt-4 text-center text-sm text-gray-500">
-          <ScrollToTopLink to="/privacy-policy" className="mx-2 hover:text-monkey">Privacy Policy</ScrollToTopLink> | 
-          <ScrollToTopLink to="/terms" className="mx-2 hover:text-monkey">Terms of Service</ScrollToTopLink> | 
-          <ScrollToTopLink to="/contact" className="mx-2 hover:text-monkey">Contact Us</ScrollToTopLink>
-        </div>
       </div>
     </footer>
   );
