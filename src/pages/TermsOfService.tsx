@@ -8,14 +8,6 @@ const TermsOfService = () => {
       <div className="container mx-auto px-4 py-12 flex-1">
         <h1 className="text-4xl font-bold mb-8">Terms of Service</h1>
         <div className="prose max-w-3xl mx-auto">
-          <div className="bg-gray-50 p-6 rounded-lg mb-8">
-            <h2 className="text-2xl font-bold mb-4">Company Information</h2>
-            <p>Legal Entity Name: Danvertise S.L.U</p>
-            <p>Address: C/Cristofor Colom 99, Vilassar de Mar 08340, Barcelona, Spain</p>
-            <p>Email: contact@contentcurrent.com</p>
-            <p>Phone: +34 123 456 789</p>
-          </div>
-          
           <p>Last updated: 3/10/2022</p>
           
           <h2>1. Introduction</h2>
