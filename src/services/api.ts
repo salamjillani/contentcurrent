@@ -15,377 +15,407 @@ export interface Article {
   content: string;
   coverImage: string;
   category: string;
-  author: Author;
   publishedDate: string;
   year: string; 
   readTime: number;
   tags: string[];
 }
 
-// Simulate API endpoints
-const MOCK_AUTHORS: Author[] = [
-  {
-    id: 1,
-    name: "Alex Johnson",
-    avatar: "https://i.pravatar.cc/150?img=1"
-  },
-  {
-    id: 2,
-    name: "Maya Rodriguez",
-    avatar: "https://i.pravatar.cc/150?img=2"
-  },
-  {
-    id: 3,
-    name: "Sam Chen",
-    avatar: "https://i.pravatar.cc/150?img=3"
-  },
-  {
-    id: 4,
-    name: "Taylor Smith",
-    avatar: "https://i.pravatar.cc/150?img=4"
-  },
-  {
-    id: 5,
-    name: "Jordan Wright",
-    avatar: "https://i.pravatar.cc/150?img=5"
-  }
-];
-
 // Generate rich, structured mock articles
 const generateMockArticles = (): Article[] => {
-  const categories = ["Technology", "Design", "Business", "Lifestyle", "Innovation"];
+  const categories = ["Technology", "Business", "Science", "Health", "Environment"];
   const tags = [
-    "AI", "Robotics", "Future Tech", "Digital Transformation", "Innovation", 
-    "Machine Learning", "Quantum Computing", "Internet of Things", 
-    "Virtual Reality", "Wearable Tech", "Emerging Technologies", 
-    "Blockchain", "Sustainability", "Cloud Computing", "5G", 
-    "Cybersecurity", "Data Science", "UX Design", "Tech Ethics",
-    "Fintech", "Biotech", "Digital Nomad", "Remote Work", "Smart Cities"
+    "Artificial Intelligence", "Space Exploration", "Climate Tech", "Digital Health", "Renewable Energy", 
+    "Neuroscience", "Genomics", "Quantum Computing", "Cybersecurity", "Blockchain", 
+    "Sustainable Development", "Space Tourism", "Digital Transformation", "Green Technology", "Biotechnology", 
+    "Remote Work", "Future of Food", "Mental Health", "Clean Energy", "3D Printing",
+    "Regenerative Agriculture", "Digital Privacy", "Smart Cities", "Biohacking", "Ocean Conservation"
   ];
   
   // Article content generation function
-  const generateArticleContent = (title: string): string => {
+  const generateArticleContent = (title: string, contentIndex: number): string => {
     const articleTemplates = [
       () => `# ${title}
 
-Hey there, digital daredevils! Get ready for a mind-bending journey into the future of technology that's about to turn everything we know upside down.
+The landscape of technology is constantly evolving, and we're witnessing an unprecedented acceleration in innovation across multiple sectors.
 
-## The Tech Revolution is Here
+## Breaking New Ground
 
-Technology isn't just changing – it's exploding like a supernova of innovation. We're not just talking incremental updates; we're discussing a complete reimagining of how we live, work, and play.
+Innovation isn't just about incremental improvements anymore—it's about fundamental paradigm shifts that redefine what's possible.
 
-### Artificial Intelligence: Your New Best Friend
+### The Convergence Revolution
 
-Imagine an AI that doesn't just answer questions but understands you better than your closest friends. We're entering an era where artificial intelligence is becoming less artificial and more intelligent.
+We're seeing the lines blur between previously distinct technologies:
 
-- **Personalized Experiences**: AI now tailors everything from your Netflix recommendations to your morning coffee order.
-- **Predictive Capabilities**: Algorithms that can predict your needs before you even realize them.
-- **Ethical Considerations**: As AI grows smarter, we're facing unprecedented questions about machine consciousness.
+- **Biotech meets AI**: Algorithms are revolutionizing drug discovery and personalized medicine
+- **Quantum computing meets cryptography**: Creating both threats and opportunities for data security
+- **Robotics meets neuroscience**: Brain-computer interfaces enabling revolutionary control systems
 
-### The Rise of Quantum Computing
+### From Theory to Application
 
-Classical computers are going the way of the dinosaur. Quantum computing is here to solve problems that would take traditional computers millennia to crack.
+What was theoretical just a few years ago is now being deployed in real-world scenarios:
 
-1. Unprecedented Processing Power
-2. Revolutionary Scientific Breakthroughs
-3. Potential to Solve Complex Global Challenges
+1. Quantum sensors detecting microscopic anomalies in manufacturing
+2. Carbon capture technologies becoming economically viable
+3. Lab-grown tissues being used for transplantation
+4. Autonomous systems operating in previously inaccessible environments
 
-## The Human-Technology Symbiosis
+## The Hidden Challenges
 
-We're not being replaced by technology – we're merging with it. Wearable tech, brain-computer interfaces, and augmented reality are blurring the lines between human and machine.
+> "Technology's greatest challenge isn't technical feasibility but ethical implementation." - Technology Ethicist
 
-> "The future is already here – it's just not evenly distributed." - William Gibson
+As we push these boundaries, new questions emerge about governance, access, and potential consequences:
 
-### Emerging Trends to Watch
+### Navigating the Regulatory Landscape
 
-- Virtual Reality Workspaces
-- AI-Powered Healthcare
-- Sustainable Tech Solutions
-- Decentralized Digital Ecosystems
+- Global coordination challenges for emerging technologies
+- Balancing innovation with safety and security
+- Creating adaptive frameworks that don't stifle development
 
-## Conclusion: Embracing the Technological Frontier
+## Looking Forward: The Next Horizon
 
-The future isn't something that happens to us – it's something we create. As technology continues to evolve at breakneck speed, our ability to adapt, learn, and innovate will be our greatest asset.
+The innovations gaining momentum today will define the capabilities of tomorrow:
 
-So buckle up, stay curious, and get ready for a ride that's going to be nothing short of extraordinary!`,
+- Edge AI systems that operate without cloud connectivity
+- Programmable materials that can change properties on demand
+- Direct air capture technologies at industrial scale
+- Biocomputing platforms that harness cellular mechanisms
 
-      () => `# ${title}
+### Preparing for Transformation
 
-The robots are here. And they brought WiFi.
+The greatest competitive advantage will be adaptability—organizations and individuals who can learn, unlearn, and relearn as technological paradigms shift.
 
-Hey there, digital daredevils! Ready to zap into the future like it's a sci-fi movie with WiFi? Buckle up, grab your favorite smart snack, and let's explore the tech trends that are about to crash our party in the most epic way possible.
+## Conclusion: Innovation with Purpose
 
-## The Rise of Robo-Buddies
+The most powerful technological developments won't just be those that demonstrate technical brilliance, but those that address fundamental human and planetary needs while creating new possibilities for flourishing.
 
-Remember when robots were just movie stars? Yeah, those days are gone. In 2025, they're your coworkers, housekeepers, and maybe your therapist (they don't judge, promise). These AI pals can schedule your life and give sarcastic reminders.
-
-- **Smart Assistants**: Beyond Alexa and Siri
-- **Robotic Companions**: From workplace to home
-- **AI-Powered Personal Management**
-
-### Quantum Computers Are Having a Moment
-
-Move over, basic binary. Quantum computing is the brainiac cousin who just showed up to the family BBQ and solved cold fusion before dessert. It's weird, wild, and makes regular computers look like Etch-a-Sketches.
-
-1. Breaking Traditional Computing Limitations
-2. Solving Complex Mathematical Problems
-3. Potential for Groundbreaking Scientific Research
-
-## The Internet of Every Dang Thing
-
-From your fridge telling you you're out of cheese (rude) to your toilet analyzing your fiber intake (double rude), everything's getting connected. It's the IoT era, where your smart spoon might just post your cereal to Instagram.
-
-### VR Meetings with Avatars Who Judge You Silently
-
-Why go to boring Zoom calls when you can show up as a dragon in the metaverse? Welcome to the age of VR meetings where your boss is a giraffe and the PowerPoint has wings.
-
-> "Any sufficiently advanced technology is indistinguishable from magic." - Arthur C. Clarke
-
-## Wearables That Know You Better Than Your Mom
-
-Fitness trackers now monitor everything from your heartbeat to your hydration to your vibe. "You're cranky—maybe hydrate and hug a cat." Who needs therapy when your watch is this nosy?
-
-### Emerging Tech Trends
-
-- Augmented Reality Interfaces
-- AI-Driven Personalization
-- Sustainable Tech Innovations
-- Blockchain Beyond Cryptocurrency
-
-## Conclusion: Embrace the Technological Absurdity
-
-So, will 2025 be run by robots and quantum spaghetti code? Maybe. Will it be hilarious, chaotic, and full of gadgets that do way too much? Absolutely. 
-
-Embrace the absurdity, charge your devices, and get ready for a tech ride so wild, even your smart toaster might gasp.`,
+The future isn't just something that happens to us—it's something we actively create through our technological choices today.`,
 
       () => `# ${title}
 
-Welcome to the digital frontier, where technology is not just advancing – it's teleporting into our lives with the subtlety of a rocket launch!
+## The Silent Revolution 
 
-## The Digital Transformation Explosion
+Across laboratories, startups, and corporate research centers around the world, a transformation is taking place that few are fully aware of—yet it will reshape how we live, work, and interact.
 
-We're witnessing a technological renaissance that's rewriting the rules of almost every industry. From healthcare to entertainment, no sector is safe from the innovation tsunami.
+### The End of Technological Isolation
 
-### Artificial Intelligence: The New Electricity
+For decades, we've developed technologies in parallel streams, with specialists working within their domains. That era is ending:
 
-Just as electricity transformed everything in the 20th century, AI is the game-changer of our era. It's not just a tool; it's becoming the backbone of how we work, create, and solve problems.
+- **Cross-disciplinary innovation**: Breakthroughs now happen at the intersection of fields
+- **Convergent technologies**: When AI meets biotech meets materials science
+- **Knowledge transfer acceleration**: Techniques from one field are rapidly adapted to others
 
-- **Intelligent Automation**: Transforming workplace efficiency
-- **Creative AI**: Generating art, music, and content
-- **Predictive Technologies**: Anticipating needs before they arise
+## Beyond the Hype Cycle
 
-## The Quantum Leap
+While headlines focus on certain buzzwords, the real revolution is happening beneath the surface:
 
-Quantum computing isn't just an upgrade – it's a complete reimagining of computational power. Imagine solving in seconds what would take traditional computers thousands of years.
+1. Next-generation energy storage making renewable energy truly viable
+2. Synthetic biology platforms creating sustainable alternatives to industrial processes
+3. Neuromorphic computing architectures mimicking brain function
+4. Distributed intelligence networks enabling new forms of coordination
 
-1. Unprecedented Processing Capabilities
-2. Revolutionary Scientific Simulations
-3. Cryptography and Security Advancements
+### The Infrastructure Transformation
 
-### The Internet of Everything
+> "The most important technological changes are often invisible—they're the infrastructure that everything else depends upon." - Infrastructure Theorist
 
-Your devices are talking – and they're not just whispering, they're having full-blown conversations.
+What's changing isn't just individual products but the fundamental systems that underpin modern life:
 
-> "The most profound technologies are those that disappear." - Mark Weiser
+- Communication networks beyond 5G
+- Logistics systems with distributed intelligence
+- Energy grids that adapt in real-time
+- Manufacturing techniques that eliminate traditional constraints
 
-## Virtual and Augmented Realities: Beyond Gaming
+## The Human Element
 
-Virtual reality is breaking free from gaming and entering education, training, healthcare, and even social interactions. Your next meeting might be in a virtual boardroom on Mars.
+As technology becomes more capable, the uniquely human contributions become more valuable:
 
-### Wearable Tech: Your Personal Health Guardian
+### A New Partnership Paradigm
 
-Smartwatches are so 2022. We're talking about tech that doesn't just track your health but predicts and prevents potential issues.
+- Technologies that augment human capabilities rather than replace them
+- Systems designed for meaningful human control and oversight
+- Innovation focused on enhancing human connection rather than isolation
 
-## Sustainable Tech: Saving the Planet, One Innovation at a Time
+## Preparing for What's Next
 
-- Green AI
-- Renewable Energy Technologies
-- Circular Economy Solutions
-- Climate Change Mitigation Innovations
+The organizations and societies that will thrive aren't just those with access to technology, but those that can:
 
-## Conclusion: We Are the Architects of Tomorrow
+- Foster cultures of continuous learning
+- Build ethical frameworks that guide technological development
+- Create inclusive systems that distribute benefits broadly
+- Balance rapid innovation with careful consideration of consequences
 
-Technology isn't something that happens to us – we're its creators, its shapers, its visionaries. As we stand on the brink of this incredible technological revolution, one thing is clear: the future is not just coming, it's already here.
+### The Path Forward
 
-Charge up, tune in, and get ready to ride the wave of innovation!`,
+The greatest challenge isn't developing new technologies—it's developing the wisdom to deploy them in ways that create a better future for humanity and our planet.
 
-      () => `# ${title}
+## Conclusion: Beyond the Horizon
 
-## Navigating the Digital Highway
+The next decade will bring technological possibilities that seem like science fiction today. Our task is to ensure these powerful tools are directed toward our highest aspirations rather than our lowest impulses.
 
-In today's hyper-connected world, technology isn't just a tool—it's the very fabric of our daily existence. From the moment we wake up to our smart alarm to when we fall asleep tracking our REM cycles, we're immersed in a technological ecosystem that's evolving faster than ever before.
-
-### The AI Revolution: Beyond Science Fiction
-
-Artificial intelligence has leaped out of the pages of science fiction and into our everyday reality. But what does this mean for humanity?
-
-- **Collaborative Intelligence**: Humans and AI working together, not against each other
-- **Cognitive Automation**: Moving beyond simple tasks to complex problem-solving
-- **Ethical AI Development**: Creating frameworks for responsible innovation
-
-## Blockchain: More Than Just Cryptocurrency
-
-While most people associate blockchain with Bitcoin, its applications extend far beyond digital currency:
-
-1. Supply Chain Transparency
-2. Secure Digital Identity
-3. Decentralized Finance (DeFi)
-4. Smart Contracts
-
-### The Metaverse: Building Digital Realities
-
-> "The metaverse isn't about creating a new world. It's about enhancing the one we have." - Tech Visionary
-
-The concept of the metaverse represents the next frontier in digital experience—a collective virtual shared space that merges physical reality with digital virtuality.
-
-## Edge Computing: Bringing Processing Power Closer
-
-As our devices multiply, the traditional cloud model faces new challenges. Edge computing brings processing power closer to where data is created:
-
-- Reduced Latency
-- Enhanced Privacy
-- Bandwidth Efficiency
-- Resilient Operations
-
-### Biotechnology Meets Digital: The Next Healthcare Revolution
-
-The convergence of biotechnology and digital technologies is creating unprecedented opportunities in healthcare:
-
-1. Personalized Medicine Based on Genetic Data
-2. AI-Powered Diagnostics
-3. Bioprinting and Organ Engineering
-4. Remote Patient Monitoring
-
-## Conclusion: Embracing the Digital Future
-
-As we navigate this rapidly evolving technological landscape, one thing becomes clear: adaptability is our greatest asset. The future belongs not to those who can predict it, but to those who can adapt to its constant evolution.
-
-Technology isn't just changing what we do—it's changing who we are. And that might be the most exciting frontier of all.`,
+The future is unwritten—and technology gives us the pen.`,
 
       () => `# ${title}
 
-## Beyond the Digital Horizon
+## The Unexpected Pioneers
 
-The future isn't coming—it's already here, hiding in plain sight. As we stand at the crossroads of innovation and implementation, let's explore the technological revolutions quietly transforming our world.
+Away from the spotlight and big tech headlines, small teams of researchers and entrepreneurs are quietly reshaping our technological landscape in ways that few anticipated.
 
-### Invisible Computing: Technology That Disappears
+### The Power of Overlooked Technologies
 
-The most profound technologies are those that disappear, blending seamlessly into our environment:
+While attention focuses on a few high-profile areas, revolutionary progress is happening in fields that receive far less coverage:
 
-- **Ambient Intelligence**: Environments that respond to our presence
-- **Zero UI**: Interfaces that operate without traditional screens
-- **Predictive Technology**: Systems that address needs before we express them
+- **Materials science breakthroughs**: Metamaterials with properties that seem to defy physics
+- **Alternative computing architectures**: Beyond traditional silicon to biological and photonic systems
+- **Sensing technologies**: Creating new ways to perceive and interact with our environment
+- **Distributed coordination systems**: Enabling new forms of collaboration across distances and organizations
 
-## Quantum Supremacy: Computing's Next Paradigm
+## The Transformation Timeline
 
-The quantum revolution isn't just about faster computers—it's about solving previously impossible problems:
+Change isn't happening at a uniform pace—some sectors are experiencing exponential breakthroughs while others evolve more gradually:
 
-1. Drug Discovery Acceleration
-2. Climate Modeling Enhancement
-3. Materials Science Breakthroughs
-4. Complex System Optimization
+1. Near-term disruptions (1-3 years): Enhanced by current AI capabilities
+2. Mid-term transformations (3-7 years): Requiring new infrastructure deployment
+3. Long-term revolutions (7-15 years): Dependent on scientific breakthroughs
 
-> "Quantum computing isn't just an evolution of classical computing—it's a fundamentally different approach to problem-solving." - Quantum Theorist
+### Finding Signal in the Noise
 
-### Sustainable Tech: Innovation with Purpose
+> "The future is already here—it's just not evenly distributed." - William Gibson
 
-The next wave of technology must address our planet's most pressing challenges:
+The indicators of tomorrow's dominant technologies can often be found in today's niche applications:
 
-- Carbon-Negative Technologies
-- Circular Economy Platforms
-- Regenerative Design Systems
-- Clean Energy Optimization
+- Academic research papers showing order-of-magnitude improvements
+- Specialized industrial applications demonstrating new capabilities
+- Unexpected combinations of existing technologies creating emergent properties
 
-## Digital Trust Architectures
+## The Democratization Effect
 
-As our lives become increasingly digital, trust becomes the new currency:
+Perhaps the most significant trend isn't any specific technology but how development is becoming more accessible:
 
-1. Self-Sovereign Identity
-2. Zero-Knowledge Proofs
-3. Decentralized Verification Systems
-4. Privacy-Preserving Computation
+### Lowering Barriers to Innovation
 
-### Biodigital Convergence
+- Open-source tools enabling broad participation in cutting-edge fields
+- Declining costs for previously expensive development infrastructure
+- Knowledge dissemination accelerating through digital channels
+- Collaborative approaches replacing siloed development
 
-The lines between biology and technology are blurring:
+## Navigating Uncertainty
 
-- Neuromorphic Computing
-- Biohybrid Systems
-- Synthetic Biology Platforms
-- Human Augmentation Technologies
+With accelerating change comes increasing unpredictability:
 
-## The Human Element: Technology with Empathy
+- How to make decisions amidst technological uncertainty
+- Balancing early adoption advantages against implementation risks
+- Building adaptable systems rather than rigid infrastructures
 
-Amid rapid technological change, the most successful innovations will be those that center human needs, values, and wellbeing:
+### Strategic Approaches for an Unpredictable Future
 
-- Ethical AI Development
-- Inclusive Design Principles
-- Technology for Social Impact
-- Digital Wellbeing Frameworks
+- Developing technological flexibility rather than committing to single paths
+- Creating option value through experimental implementations
+- Focusing on fundamental capabilities that transfer across scenarios
 
-### Conclusion: Co-Creating Our Technological Future
+## Conclusion: The Unfolding Story
 
-The most exciting aspect of these technological frontiers isn't just what they can do—it's what we can become through them. The future of technology isn't something that happens to us; it's something we actively shape and create.
+The technological future won't unfold according to predetermined narratives or hype cycles—it will emerge from countless innovations, experiments, failures, and unexpected successes.
 
-As we navigate this exciting era of innovation, let's ensure our technological future reflects our highest human aspirations.`
+The organizations and individuals who will shape this future aren't necessarily those with the most resources, but those with the clearest vision, greatest adaptability, and unwavering focus on creating genuine value.`,
+
+      () => `# ${title}
+
+## The Silent Transformation
+
+A profound technological shift is occurring beneath the surface of our daily lives—one that will fundamentally alter how we interact with our world and each other.
+
+### Beyond the Visible Horizon
+
+While headlines focus on consumer gadgets and apps, deeper technological currents are reshaping our foundation:
+
+- **Digital infrastructure evolution**: From centralized systems to distributed networks
+- **Computational material science**: Programming matter at the molecular level
+- **Biological information systems**: Harnessing natural processes for computation and manufacturing
+- **Energy paradigm shifts**: Moving from extraction to regeneration
+
+## Rewriting the Rules
+
+These technologies aren't just improving existing systems—they're changing what's possible:
+
+1. Solving previously intractable problems through new computational approaches
+2. Creating circular economic models that eliminate traditional waste streams
+3. Enabling personalized medicine tailored to individual genetic profiles
+4. Developing energy systems that mimic natural processes
+
+### The Integration Challenge
+
+> "The most powerful innovations aren't standalone technologies but new ways of connecting existing capabilities." - Systems Theorist
+
+As individual technologies mature, their combination creates possibilities greater than the sum of their parts:
+
+- AI systems that can interact with the physical world through advanced robotics
+- Synthetic biology platforms guided by computational design
+- Renewable energy captured and distributed through intelligent networks
+- Augmented human capabilities through seamless human-computer interfaces
+
+## Beyond Technical Capabilities
+
+The most significant barriers to transformation aren't technical but human and organizational:
+
+### Navigating the Human Element
+
+- Adapting governance systems to technological realities
+- Developing new skills and ways of working
+- Creating inclusive approaches to technological benefits
+- Building trust in increasingly complex systems
+
+## Charting the Future Landscape
+
+The next decade will be defined not by any single technology but by how we integrate and direct our technological capabilities:
+
+- Toward solving our greatest challenges or amplifying existing problems
+- With thoughtful consideration of consequences or reckless deployment
+- Through collaborative global approaches or fragmented competition
+- With a focus on human flourishing or narrow measures of progress
+
+### Finding the Path Forward
+
+The most successful organizations won't be those that simply deploy technology fastest but those that most thoughtfully align technological capabilities with human needs and values.
+
+## Conclusion: The Choice Point
+
+We stand at a technological inflection point where our decisions about development, deployment, and governance will shape not just our tools but our society for generations to come.
+
+The question isn't just what technology can do, but what we want it to do—and that's a question that requires not just technical expertise but wisdom, foresight, and a commitment to our highest aspirations.`,
+
+      () => `# ${title}
+
+## The Next Wave Approaches
+
+While we're still adapting to recent technological changes, the next wave of innovation is already forming—and its impact may be even more profound.
+
+### Looking Beyond the Current Generation
+
+The technologies capturing attention today are just the beginning:
+
+- **Post-quantum systems**: Computing architectures that transcend current approaches
+- **Neuro-symbolic AI**: Combining the strengths of neural networks and symbolic reasoning
+- **Programmable biology**: Engineering biological systems with precision and purpose
+- **Ambient intelligence**: Computing that vanishes into our environment
+
+## The Acceleration Phenomenon
+
+The pace of technological change isn't just continuing—it's increasing:
+
+1. Research pipelines converting discoveries to applications more rapidly
+2. Virtual simulation enabling faster iteration and testing
+3. Global collaboration accelerating knowledge sharing
+4. Automation of the discovery process itself
+
+### Unexpected Consequences
+
+> "The most significant impacts of any technology are rarely those anticipated by its creators." - Technology Historian
+
+As these technologies mature, their greatest effects may be outside their intended domains:
+
+- Energy innovations reshaping geopolitics
+- AI systems transforming knowledge work and education
+- Synthetic biology altering manufacturing and agriculture
+- Advanced materials enabling new forms of construction and transportation
+
+## The Adaptation Imperative
+
+In a world of accelerating change, adaptation becomes a core capability:
+
+### Building Dynamic Organizations and Systems
+
+- Designing for flexibility rather than optimization
+- Creating learning systems that improve through experience
+- Developing anticipatory capabilities for emerging technologies
+- Fostering cultures that embrace constructive change
+
+## Beyond Technical Solutions
+
+As our technological capabilities grow, so does the importance of guidance systems:
+
+- Ethical frameworks that evolve with technological possibilities
+- Inclusive governance that represents diverse perspectives
+- Long-term thinking that considers intergenerational impacts
+- Values alignment between technological capabilities and human flourishing
+
+### Navigating the Transition
+
+The coming decade will be defined by how well we manage the transition between technological paradigms:
+
+- Supporting communities through economic transformation
+- Ensuring equitable access to technological benefits
+- Building bridges between technical and non-technical domains
+- Creating shared visions of desirable technological futures
+
+## Conclusion: Co-Creating Our Technological Future
+
+The path ahead isn't predetermined by technological inevitability but will be shaped by countless human decisions about what to develop, how to deploy it, and toward what ends.
+
+The future belongs not to technology itself, but to those who can harness technological capabilities to address our deepest challenges and advance our highest aspirations.`
     ];
 
-    // Randomly select an article template
-    return articleTemplates[Math.floor(Math.random() * articleTemplates.length)]();
+    // Use a deterministic pattern to select the content template based on the article index
+    return articleTemplates[contentIndex % articleTemplates.length]();
   };
   
-  // Create 50 articles with consistent slugs - the key is to make sure slugs are deterministic
-  const titlePrefixes = [
-    "The Future of", 
-    "Unleashing", 
-    "Revolution: How", 
-    "The Rise of", 
-    "Transforming Tomorrow:",
-    "Breaking Barriers:",
-    "The Ultimate Guide to",
-    "Next-Level",
-    "The Evolution of",
-    "Mastering",
-    "Exploring",
-    "Redefining",
-    "Beyond Conventional",
-    "The Age of",
-    "Disrupting"
+  // Create article titles for 50 unique articles
+  const articleTitles = [
+    "The Quantum Revolution: Computing Beyond Binary",
+    "Sustainable Cities: Blueprints for Urban Transformation",
+    "Neural Interfaces: The Bridge Between Mind and Machine",
+    "Ocean Regeneration: Technologies to Heal Our Seas",
+    "Synthetic Biology: Engineering Life's Building Blocks",
+    "Fusion Energy: The Quest for Limitless Power",
+    "Space Mining: Extracting Resources Beyond Earth",
+    "Cellular Agriculture: Reimagining Food Production",
+    "Carbon Capture: Technologies Fighting Climate Change",
+    "Neuromorphic Computing: Machines That Think Like Brains",
+    "Vertical Farming: Agriculture's Urban Revolution",
+    "Virtual Presence: Beyond Video Conferencing",
+    "Genetic Medicine: Editing the Code of Life",
+    "Hydrogen Economy: The Clean Energy Carrier",
+    "Smart Materials: Programmable Matter Takes Shape",
+    "Digital Identity: Securing the Self Online",
+    "Autonomous Transportation: Beyond Self-Driving Cars",
+    "Biodegradable Electronics: Technology That Disappears",
+    "Quantum Sensors: Measuring the Previously Unmeasurable",
+    "Brain-Computer Interfaces: Direct Digital Connection",
+    "Lab-Grown Organs: The Future of Transplantation",
+    "Space-Based Solar Power: Energy From Above",
+    "Blockchain Beyond Crypto: Rebuilding Trust Systems",
+    "Regenerative Medicine: The Body's Healing Revolution",
+    "Extended Reality: Merging Digital and Physical Worlds",
+    "Bioplastics Revolution: Materials from Nature",
+    "Privacy-Preserving AI: Computation Without Exposure",
+    "Drone Ecosystems: Aerial Networks Taking Flight",
+    "Plant-Based Alternatives: Reimagining Protein",
+    "Smart Grids: Electricity Networks With Intelligence",
+    "Digital Twins: Virtual Replicas Transforming Industry",
+    "Longevity Science: Extending Healthy Human Lifespan",
+    "Personalized Learning: Education's AI Revolution",
+    "Bioprinting: Manufacturing Living Tissues",
+    "Atmospheric Water Generation: Extracting H2O From Air",
+    "Zero-Knowledge Proofs: Verification Without Revelation",
+    "Robotic Automation: The Next Generation Workforce",
+    "Precision Fermentation: Brewing the Future of Food",
+    "Green Hydrogen: Water-Splitting for Clean Energy",
+    "Edge AI: Intelligence Without the Cloud",
+    "Molecular Manufacturing: Building from Atoms Up",
+    "Climate Restoration: Beyond Carbon Neutrality",
+    "Wearable Health Tech: The Body's Digital Guardian",
+    "Autonomous Robotics: Machines That Navigate Our World",
+    "Direct Air Capture: Pulling Carbon From the Sky",
+    "Cultured Meat: Growing Protein Without Animals",
+    "Circular Economy: Designing Out Waste",
+    "Microbiome Engineering: Programming Our Inner Ecosystem",
+    "Advanced Nuclear: Smaller, Safer Fission Power",
+    "Digital Therapeutics: Software as Medicine"
   ];
   
-  const titleSuffixes = [
-    "Technology",
-    "Digital Innovation",
-    "AI and Robotics",
-    "Emerging Tech Trends",
-    "The Tech Frontier",
-    "Future Technologies",
-    "Digital Transformation",
-    "Technological Revolution",
-    "Quantum Computing",
-    "Blockchain Applications",
-    "Smart Solutions",
-    "IoT Ecosystems",
-    "Metaverse Development",
-    "Cloud Infrastructure",
-    "Data Analytics",
-    "Cybersecurity",
-    "Remote Work Technology",
-    "Sustainable Tech",
-    "FinTech Solutions",
-    "Web3 and Decentralization"
-  ];
-
-  // Create the articles using a deterministic approach
+  // Create 50 articles with improved deterministic slugs
   return Array.from({ length: 50 }, (_, index) => {
-    // Use a deterministic formula based on index to select prefix and suffix
-    const prefixIndex = index % titlePrefixes.length;
-    const suffixIndex = Math.floor(index / titlePrefixes.length) % titleSuffixes.length;
-    
-    const titlePrefix = titlePrefixes[prefixIndex];
-    const titleSuffix = titleSuffixes[suffixIndex];
-    const title = `${titlePrefix} ${titleSuffix}`;
-    const slug = createSlug(title); // Using our improved slug function
+    const title = articleTitles[index];
+    const slug = createSlug(title);
     const category = categories[index % categories.length];
     
     // Get 2-4 random tags but in a deterministic way
@@ -395,9 +425,6 @@ As we navigate this exciting era of innovation, let's ensure our technological f
       const tagIndex = (index + i) % tags.length;
       articleTags.push(tags[tagIndex]);
     }
-    
-    // Deterministic author selection
-    const author = MOCK_AUTHORS[index % MOCK_AUTHORS.length];
     
     // Generate date in a deterministic way
     const years = ["2023", "2024", "2025"];
@@ -412,21 +439,25 @@ As we navigate this exciting era of innovation, let's ensure our technological f
     date.setMonth(month);
     date.setDate(day);
     
-    const publishedDate = date.toISOString().split('T')[0];
-    const content = generateArticleContent(title);
+    const publishedDate = date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    
+    const content = generateArticleContent(title, index);
     
     return {
       id: index + 1,
       title,
       slug,
-      excerpt: content.split('\n')[2]?.substring(0, 200) + '...' || '',
+      excerpt: content.split('\n\n')[1]?.substring(0, 160) + '...' || 'Exploring the cutting edge of innovation and its implications for our future.',
       content,
-      coverImage: `https://picsum.photos/seed/${index + 1}/800/450`,
+      coverImage: `https://picsum.photos/seed/${slug}/800/450`,
       category,
-      author,
       publishedDate,
       year,
-      readTime: 5 + (index % 10),
+      readTime: 5 + (index % 15),
       tags: articleTags
     };
   });
@@ -445,7 +476,7 @@ function createSlug(text: string): string {
 // Storage keys with version control
 const STORAGE_KEY = 'mockArticles';
 const STORAGE_VERSION_KEY = 'mockArticlesVersion';
-const CURRENT_VERSION = '1.1'; // Incremented version to force regeneration with new slug format
+const CURRENT_VERSION = '2.0'; // Incremented version to force regeneration with new content
 
 // Improved article caching with version control
 let MOCK_ARTICLES: Article[] = [];

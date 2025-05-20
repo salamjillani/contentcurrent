@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import api from "@/services/api";
 import ArticleCard from "@/components/ArticleCard";
 import Navbar from "@/components/Navbar";
@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 
 const Index = () => {
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Get 2 featured articles
   const { data: featuredArticles, isLoading: isFeaturedLoading } = useQuery({
@@ -34,6 +35,14 @@ const Index = () => {
     queryFn: api.getCategories
   });
 
+  // Function to handle search form submission
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/blog?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
   // Function to handle navigation with scroll to top
   const handleCategoryClick = (categoryName) => {
     navigate(`/blog?category=${categoryName}`);
@@ -49,23 +58,33 @@ const Index = () => {
     <div className="flex min-h-screen flex-col">
       <Navbar />
       
-      {/* Hero Section */}
+      {/* Hero Section with Search */}
       <section className="bg-gradient-to-b from-monkey-bg to-white py-20 md:py-32">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center text-center max-w-3xl mx-auto">
             <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-              Explore the Digital Articles with <span className="text-monkey">The Content Current</span>
+              The Content Current
             </h1>
-            <p className="mb-8 text-xl text-gray-600 md:text-2xl">
-              Discover insightful articles, guides, and stories about technology, design, and digital culture.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button asChild className="bg-monkey hover:bg-monkey-dark text-white px-8 py-6 text-lg">
-                <Link to="/blog">Explore Articles</Link>
-              </Button>
-              <Button asChild variant="outline" className="border-monkey text-monkey hover:bg-monkey-light/10 px-8 py-6 text-lg">
-                <Link to="/about">About Us</Link>
-              </Button>
+            
+            <form onSubmit={handleSearch} className="w-full max-w-xl mb-8">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="Search articles..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="flex-1 px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-monkey"
+                />
+                <Button 
+                  type="submit"
+                  className="bg-monkey hover:bg-monkey-dark text-white px-6 py-3 text-lg"
+                >
+                  Search
+                </Button>
+              </div>
+            </form>
+            <div className="mt-8 text-sm text-gray-600">
+              "Traffic to this site originates from social media campaigns. Specific URL criteria must be met in order to display search ads."
             </div>
           </div>
         </div>

@@ -90,12 +90,29 @@ const Blog = () => {
       
       <section className="bg-white py-12 md:py-16 border-b border-gray-200">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">Blog</h1>
-            <p className="text-xl text-gray-600">Explore our collection of articles, guides, and insights</p>
-          </div>
+          {searchParam && (
+            <div className="max-w-3xl mx-auto text-center mb-8">
+              <h2 className="text-2xl font-semibold">
+                Search results for: "{searchParam}"
+              </h2>
+              <p className="text-gray-600 mt-2">
+                {articlesData?.articles.length} articles found
+              </p>
+            </div>
+          )}
+          
+          {!searchParam && (
+            <div className="max-w-3xl mx-auto text-center">
+              <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">Blog</h1>
+              <p className="text-xl text-gray-600">Explore our collection of articles, guides, and insights</p>
+            </div>
+          )}
         </div>
       </section>
+      
+      <div className="container mx-auto px-4 md:px-6 py-6 text-center text-sm text-gray-600">
+        "Traffic to this site originates from social media campaigns. Specific URL criteria must be met in order to display search ads."
+      </div>
       
       <section className="flex-1 py-12 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">

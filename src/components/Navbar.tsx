@@ -12,13 +12,7 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/blog?search=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery("");
-    }
-  };
+
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-sm border-b border-gray-100">
@@ -27,15 +21,7 @@ const Navbar = () => {
           <span className="text-2xl font-bold text-monkey">The Content Current</span>
         </Link>
 
-        <form onSubmit={handleSearch} className="hidden md:block flex-1 max-w-xl mx-8">
-          <input
-            type="text"
-            placeholder="Search articles..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-monkey"
-          />
-        </form>
+       
 
         <nav className="hidden md:flex items-center gap-6">
           <button 
@@ -95,15 +81,7 @@ const Navbar = () => {
 
       {isOpen && (
         <div className="md:hidden px-4 py-6 bg-white border-t border-gray-100 animate-fade-in">
-          <form onSubmit={handleSearch} className="mb-4">
-            <input
-              type="text"
-              placeholder="Search articles..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-monkey"
-            />
-          </form>
+         
           <nav className="flex flex-col gap-4">
             <Link to="/" className="block py-2 text-monkey-text hover:text-monkey" onClick={() => setIsOpen(false)}>
               Home
